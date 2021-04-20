@@ -85,14 +85,17 @@ namespace Carbonate.Standard
             Console.ForegroundColor = foreground; //< Restore console color
             Console.BackgroundColor = background; //<
         }
+
         /// <value>The current time represented as hh:mm:ss format.</value>
         public static string CurrentTimeString
         {
-            get {
+            get
+            {
                 var now = DateTime.Now;
                 return $"{now.Hour.ToString("00")}:{now.Minute.ToString("00")}:{now.Second.ToString("00")}";
             }
         }
+
         /// <summary>
         /// Write a info message.
         /// </summary>
