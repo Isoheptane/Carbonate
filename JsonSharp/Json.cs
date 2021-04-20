@@ -183,6 +183,10 @@ namespace JsonSharp
         {
             return new JsonValue(ValueType.boolean, val);
         }
+        public static implicit operator JsonValue(DateTime val)
+        {
+            return new JsonValue(ValueType.str, val.ToString("yyyy/MM/dd HH:mm:ss"));
+        }
         public static implicit operator string(JsonValue val)
         {
             if (val.type != ValueType.str)
@@ -274,6 +278,15 @@ namespace JsonSharp
         {
             if (val.type != ValueType.boolean) throw new Exception("Object is not a boolean object");
             return (bool)val.value;
+        }
+        public static implicit operator DateTime(JsonValue val)
+        {
+            if (val.type != ValueType.str)
+                throw new Exception("Object is not a string value.");
+            else
+            {
+                return DateTime.ParseExact((string)val, "yyyy/MM/dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            }
         }
         public static JsonValue Parse(ref string json, ref int ptr)
         {

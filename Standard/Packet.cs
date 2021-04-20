@@ -18,10 +18,16 @@ namespace Carbonate.Standard
         public Packet() => packetData = new JsonObject();
 
         /// <summary>
-        /// Create a packet from JSON string.
+        /// Create a packet from a JSON string.
         /// </summary>
         /// <param name="json">JSON string</param>
         public Packet(string json) => packetData = JsonObject.Parse(json);
+
+        /// <summary>
+        /// Create a packet from a JSON object.
+        /// </summary>
+        /// <param name="json">JSON object</param>
+        public Packet(JsonObject json) => packetData = json;
 
         /// <summary>
         /// Create a packet from a byte array.
@@ -67,6 +73,11 @@ namespace Carbonate.Standard
 
             return byteArray;
         }
+
+        /// <summary>
+        /// Convert packet into a JSON object.
+        /// </summary>
+        public JsonObject ToJsonObject() => packetData;
 
         /// <summary>
         /// Convert packet into a JSON string.

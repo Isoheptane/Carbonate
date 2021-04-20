@@ -4,3 +4,7 @@ Standard/bin/
 Standard/obj/
 Server/bin/
 Server/obj/
+workspace/
+Tester/bin/
+Tester/obj/
+Tester/Program.cs

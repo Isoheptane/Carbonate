@@ -91,8 +91,7 @@ namespace Carbonate.Standard
         {
             get
             {
-                var now = DateTime.Now;
-                return $"{now.Hour.ToString("00")}:{now.Minute.ToString("00")}:{now.Second.ToString("00")}";
+                return DateTime.Now.ToString("HH:mm:ss");
             }
         }
 
