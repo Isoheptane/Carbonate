@@ -32,6 +32,23 @@ namespace Carbonate.Standard
             muteTime        = DateTime.MinValue;
             banTime         = DateTime.MinValue;
         }
+
+        /// <summary>
+        /// Create a user object from another user object.
+        /// </summary>
+        /// <param name="user">Another user object to be copied</param>
+        public User(User user)
+        {
+            username        = user.username;
+            nickname        = user.nickname;
+            isAdmin         = user.isAdmin;
+            isSuperAdmin    = user.isSuperAdmin;
+            registerTime    = user.registerTime;
+            lastLoginTime   = user.lastLoginTime;
+            lastChatTime    = user.lastChatTime;
+            muteTime        = user.muteTime;
+            banTime         = user.banTime;
+        }
         
         /// <summary>
         /// Create a user object from JSON object.
@@ -67,6 +84,58 @@ namespace Carbonate.Standard
             json.Add("lastChatTime" , lastChatTime);
             json.Add("muteTime"     , muteTime);
             json.Add("banTime"      , banTime);
+            return json;
+        }
+    }
+
+    public class ServerUser : User
+    {
+        public string password;
+
+        /// <summary>
+        /// Create a empty server-side user object.
+        /// </summary>
+        public ServerUser() : base()
+        {
+            password = "";
+        }
+
+        /// <summary>
+        /// Create a server-side user object with a user object.
+        /// </summary>
+        /// <param name="user">User object template</param>
+        public ServerUser(User user) : base(user)
+        {
+            password = "";
+        }
+
+        /// <summary>
+        /// Create a server-side user object from another server-side user object.
+        /// </summary>
+        /// <param name="user">Server-side user object template</param>
+        public ServerUser(ServerUser user) : base((User)user)
+        {
+            password = user.password;
+        }
+
+        /// <summary>
+        /// Create a server-side user object from JSON object.
+        /// </summary>
+        /// <param name="json">JSON object</param>
+        public new static ServerUser CreateFromJson(JsonObject json)
+        {
+            ServerUser serverUser = new ServerUser(User.CreateFromJson(json));
+            serverUser.password = json["password"];
+            return serverUser;
+        }
+
+        /// <summary>
+        /// Convert a server-side user object into JSON.
+        /// </summary>
+        public new JsonObject ToJsonObject()
+        {
+            JsonObject json = ((User)this).ToJsonObject();
+            json.Add("password", password);
             return json;
         }
     }
