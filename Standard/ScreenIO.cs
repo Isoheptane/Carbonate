@@ -98,22 +98,22 @@ namespace Carbonate.Standard
         /// <summary>
         /// Write a info message.
         /// </summary>
-        public static void Info(string message) => Write($"\\rr[ INFO  {CurrentTimeString}]\\rr {message}\n");
+        public static void Info(string message) => Write($"\\rr[{CurrentTimeString} INFO]\\rr {message}\n");
 
         /// <summary>
         /// Write a warning message.
         /// </summary>
-        public static void Warn(string message) => Write($"\\er[ WARN  {CurrentTimeString}]\\rr {message}\n");
+        public static void Warn(string message) => Write($"\\er[{CurrentTimeString} WARN]\\rr {message}\n");
 
         /// <summary>
         /// Write a error message.
         /// </summary>
-        public static void Error(string message) => Write($"\\cr[ ERROR {CurrentTimeString}]\\rr {message}\n");
+        public static void Error(string message) => Write($"\\cr[{CurrentTimeString} ERROR]\\rr {message}\n");
 
         /// <summary>
         /// Write a debug message.
         /// </summary>
-        public static void Debug(string message) => Write($"\\rr[ DEBUG {CurrentTimeString}]\\rr {message}\n");
+        public static void Debug(string message) => Write($"\\rr[{CurrentTimeString} DEBUG]\\rr {message}\n");
 
     }
 }
