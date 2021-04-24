@@ -115,5 +115,10 @@ namespace Carbonate.Standard
         /// </summary>
         public static void Debug(string message) => Write($"\\rr[{CurrentTimeString} DEBUG]\\rr {message}\n");
 
+        /// <summary>
+        /// Unescape message.
+        /// </summary>
+        public static string Unescape(string message) => message.Replace("\\", "\\\\");
+
     }
 }
