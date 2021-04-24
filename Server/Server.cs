@@ -1,4 +1,6 @@
 using System;
+using System.Net;
+using System.Net.Sockets;
 using Carbonate.Standard;
 using static Carbonate.Standard.ScreenIO;
 
@@ -89,9 +91,9 @@ namespace Carbonate.Server
         /// </summary>
         public void Start()
         {
-            serverOn = true;            //< Set tag
+            serverOn = true;    //< Set tag
             Info("Starting server...");
-            Info("Server Information:");
+            Info("Server Information:");    //< Write Server Info
             Write($"  Name: {Name}\n");
             Write("  Description:\n");
             foreach(string lines in Description)
@@ -99,6 +101,11 @@ namespace Carbonate.Server
             Write($"  Max Online: {MaxOnline}\n");
             Write($"  Port: {Port}\n");
             Write($"  Workspace Directory: {WorkspaceDirectory}\n");
+            // Initialize listener
+            TcpListener listener = new TcpListener(IPAddress.IPv6Any, Port);
+            listenerThread = new System.Threading.Thread(() => { StartListener(listener); });
+            listenerThread.Name = "Listener Thread";
+            listenerThread.Start();
 
             LoadUserProfiles();
             Info($"{users.Count} user profiles loaded.");

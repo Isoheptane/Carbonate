@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Collections.Generic;
 using System.Text;
 using JsonSharp;
 
@@ -91,6 +94,29 @@ namespace Carbonate.Standard
         /// <param name="tab">Tab string</param>
         /// <returns>The serialized JSON string</returns>
         public string Serialize(string tab = "    ") => packetData.Serialize("", tab);
+
+        /// <summary>
+        /// Receive packet from indicated client object.
+        /// </summary>
+        /// <param name="client">Network stream</param>
+        /// <param name="buffer">Indicated byte buffer</param>
+        /// <returns>Packet received</returns>
+        public static Packet ReceivePacket(NetworkStream stream, byte[] buffer)
+        {
+            stream.Read(buffer, 0, 4);
+            int length = BitConverter.ToInt32(buffer, 0);
+            stream.Read(buffer, 0, length);
+            return new Packet(Encoding.UTF8.GetString(buffer, 0, length));
+        }
+
+        /// <summary>
+        /// Send packet to indicated client. 
+        /// </summary>
+        public static void SendPacket(NetworkStream stream, Packet packet)
+        {
+            byte[] byteArray = packet.ToByteArray();
+            stream.Write(byteArray, 0, byteArray.Length);
+        }
 
     }
 }

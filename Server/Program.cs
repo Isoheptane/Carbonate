@@ -19,6 +19,7 @@ namespace Carbonate.Server
         }
         static void Main(string[] args)
         {
+            ScreenIO.Warn("This server-side program is still under development, use it at your own risk.");
             // Load config file
             JsonObject info = JsonObject.Parse(
                 File.ReadAllText("workspace/server_config.json")
