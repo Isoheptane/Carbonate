@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Carbonate.Standard;
 using static Carbonate.Standard.ScreenIO;
 
-namespace Carbonate.Server {
+namespace Carbonate.Server
+{
 
     public partial class Server
     {
@@ -16,11 +17,11 @@ namespace Carbonate.Server {
             var stream = client.GetStream();
             Packet request = Packet.ReceivePacket(stream, buffer);
             string requestType = request["requestType"];
-            if(requestType == "ping")
+            if (requestType == "ping")
             {
                 ProcessPingRequest(client, request, buffer);
             }
-            else if(requestType == "connect")
+            else if (requestType == "connect")
             {
 
             }
