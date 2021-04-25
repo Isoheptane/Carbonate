@@ -302,10 +302,13 @@ namespace JsonSharp
             if (content == "true" || content == "false")
                 return new JsonValue(ValueType.boolean, content == "true" ? true : false);
             Int64 retInt64;
+            Decimal retDecimal;
             if (!content.Contains(".") && Int64.TryParse(content, out retInt64))
                 return new JsonValue(ValueType.integer, retInt64);
-            else
+            else if(decimal.TryParse(content, out retDecimal))
                 return new JsonValue(ValueType.number, decimal.Parse(content));
+            else
+                return new JsonValue(ValueType.number, decimal.Parse(content, System.Globalization.NumberStyles.Float));
         }
         public static JsonValue Parse(string json)
         {
