@@ -28,8 +28,7 @@ namespace Carbonate.Server
                     ServerUser user = ServerUser.CreateFromJson(
                         JsonSharp.JsonObject.Parse(File.ReadAllText(path))
                     );
-                    if (!users.TryAdd(user.username, user))
-                        throw new Exception("Failed to load user profile.");
+                    users.TryAdd(user.username, user);
                 }
                 catch (Exception ex)
                 {

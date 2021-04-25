@@ -23,7 +23,7 @@ namespace Carbonate.Server
             }
             else if (requestType == "connect")
             {
-                
+                ProcessConnectRequest(client, request, buffer);
             }
         }
     }

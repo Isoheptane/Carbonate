@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.Collections.Generic;
@@ -20,24 +22,30 @@ namespace Carbonate.Server
             get { return onlineUsers; }
         }
 
+        /// <summary>
+        /// Add a new user to the online user list
+        /// </summary>
+        /// <param name="username">Username</param>
+        /// <param name="client">Remote client object</param>
         public void Connect(string username, TcpClient client)
         {
             onlineUsers.TryAdd(username, new OnlineUser(username, client));
-            Packet messagePacket = new Packet();
-            messagePacket["type"]       = "broadcast";
-            messagePacket["sender"]     = "server";
-            messagePacket["message"]    = $"\\br{username} \\rr Joined in the server.";
-            foreach(var users in onlineUsers)
-            {
-                try
-                {
-                    users.Value.Send(messagePacket);
-                }
-                catch (Exception ex)
-                {
-                    Error($"Error occured while sending message to user \"{users.Value.Username}\": {ex.Message}");
-                }
-            }
+            onlineUsers[username].KeepAlive();
+            onlineUsers[username].BeginDaemon(this);
+            ServerBroadcast("server", $"\\br{username} \\rr Joined in the server.");
+            Info($"User \"{username}\" from {client.Client.RemoteEndPoint} connected.");
+        }
+
+        /// <summary>
+        /// Remove user from the online user list
+        /// </summary>
+        /// <param name="username">Username</param>
+        public void Disconnect(string username)
+        {
+            OnlineUser rec;
+            onlineUsers.TryRemove(username, out rec);
+            ServerBroadcast("server", $"\\br{username} \\rr Left in the server.");
+            Info($"User \"{username}\" disconnected.");
         }
     }
 }
