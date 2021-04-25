@@ -101,7 +101,7 @@ namespace JsonSharp
     }
     public class JsonValue
     {
-        ValueType type;
+        public ValueType type;
         object value;
         public JsonValue()
         {
@@ -322,7 +322,7 @@ namespace JsonSharp
                     {
                         switch (type)
                         {
-                            case ValueType.nulltype: { strb.Append(strb); break; }
+                            case ValueType.nulltype: { strb.Append("null"); break; }
                             case ValueType.str: { strb.Append("\"" + Reader.Escape(value.ToString()) + "\""); break; }
                             case ValueType.boolean: { strb.Append((bool)value ? "true" : "false"); break; }
                             default: { strb.Append(value.ToString()); break; }
