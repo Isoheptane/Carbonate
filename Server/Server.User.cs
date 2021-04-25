@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using Carbonate.Standard;
 using static Carbonate.Standard.ScreenIO;
 
@@ -9,10 +10,10 @@ namespace Carbonate.Server
     public partial class Server
     {
 
-        Dictionary<string, ServerUser> users = new Dictionary<string, ServerUser>();
+        ConcurrentDictionary<string, ServerUser> users = new ConcurrentDictionary<string, ServerUser>();
 
         /// <value>Users on the server.</value>
-        public Dictionary<string, ServerUser> Users
+        public ConcurrentDictionary<string, ServerUser> Users
         {
             get { return users; }
         }
@@ -27,7 +28,8 @@ namespace Carbonate.Server
                     ServerUser user = ServerUser.CreateFromJson(
                         JsonSharp.JsonObject.Parse(File.ReadAllText(path))
                     );
-                    users.Add(user.username, user);
+                    if (!users.TryAdd(user.username, user))
+                        throw new Exception("Failed to load user profile.");
                 }
                 catch (Exception ex)
                 {
