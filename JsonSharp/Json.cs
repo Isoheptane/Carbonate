@@ -456,7 +456,15 @@ namespace JsonSharp
         public JsonValue this[string index]
         {
             get { return pairs[index]; }
-            set { pairs[index] = value; }
+            set { 
+                if(!pairs.ContainsKey(index))
+                {
+                    keys.Add(index);
+                    pairs.Add(index, value);
+                }
+                else
+                    pairs[index] = value; 
+            }
         }
         public static JsonObject Parse(ref string json, ref int ptr)
         {
