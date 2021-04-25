@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Carbonate.Standard;
 using static Carbonate.Standard.ScreenIO;
@@ -17,14 +18,39 @@ namespace Carbonate.Server
         public void ProcessUserPacket(OnlineUser sender, Packet packet)
         {
             User user = Users[sender.Username];
-            string command = packet["command"];
-            if (command == "keep-alive")
+            CommandPacket command = new CommandPacket(packet);
+            switch (command.command.ToLower())
             {
-                sender.KeepAlive();
-            }
-            else
-            {
-                ServerMessage("server", $"\\crInvalid command \"{command}\"", sender);
+                case "say":             //< User chat
+                {
+                    UserChat(sender, command);
+                    break;
+                }
+                case "whisper":         //< User whisper
+                {
+                    UserWhisper(sender, command);
+                    break;
+                }
+                case "me":         //< User whisper
+                {
+                    UserAction(sender, command);
+                    break;
+                }
+                case "keep-alive":      //< Keep-Alive packet
+                {
+                    sender.KeepAlive();
+                    break;
+                }
+                case "disconnect":      //< User disconnect
+                {
+                    Disconnect(sender.Username);
+                    break;
+                }
+                default:                //< Invalid command
+                {
+                    ServerMessage("server", sender, $"\\crInvalid command \"{command}\"");
+                    break;
+                }
             }
         }
     }

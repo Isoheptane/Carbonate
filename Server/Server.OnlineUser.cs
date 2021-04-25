@@ -32,8 +32,9 @@ namespace Carbonate.Server
             onlineUsers.TryAdd(username, new OnlineUser(username, client));
             onlineUsers[username].KeepAlive();
             onlineUsers[username].BeginDaemon(this);
-            ServerBroadcast("server", $"\\br{username} \\rr Joined in the server.");
-            Info($"User \"{username}\" from {client.Client.RemoteEndPoint} connected.");
+            User backendUser = Users[username];
+            Broadcast("server", $"\\er{backendUser.nickname}\\rr({username})\\rr joined the server.");
+            Info($"User \\er{backendUser.nickname}\\rr({username})\\rr from {client.Client.RemoteEndPoint} connected.");
         }
 
         /// <summary>
@@ -44,8 +45,10 @@ namespace Carbonate.Server
         {
             OnlineUser rec;
             onlineUsers.TryRemove(username, out rec);
-            ServerBroadcast("server", $"\\br{username} \\rr Left in the server.");
-            Info($"User \"{username}\" disconnected.");
+            User backendUser = Users[username];
+            Broadcast("server", $"\\er{backendUser.nickname}\\rr({username})\\rr left the server.");
+            rec.Disconnect();
+            Info($"User \\er{backendUser.nickname}\\rr({username})\\rr disconnected.");
         }
     }
 }

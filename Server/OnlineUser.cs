@@ -49,6 +49,17 @@ namespace Carbonate.Standard
         }
 
         /// <summary>
+        /// Disconnect
+        /// </summary>
+        public void Disconnect()
+        {
+            stream.Close();
+            client.Close();
+            client.Dispose();
+            connected = false;
+        }
+
+        /// <summary>
         /// Send a packet to the user
         /// </summary>
         /// <param name="packet">The packet to be sent</param>
@@ -75,10 +86,7 @@ namespace Carbonate.Standard
                 if(DateTime.Now > keepalive)
                 {
                     server.Disconnect(Username);
-                    stream.Close();
-                    client.Close();
-                    client.Dispose();
-                    connected = false;
+                    Disconnect();
                     ScreenIO.Info($"User \"{Username}\" was kicked from the server due to keep-alive.");
                     break;
                 }
