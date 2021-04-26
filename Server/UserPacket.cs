@@ -22,40 +22,40 @@ namespace Carbonate.Server
             switch (command.command.ToLower())
             {
                 case "say":             //< User chat
-                {
-                    UserChat(sender, command);
-                    break;
-                }
+                    {
+                        UserChat(sender, command);
+                        break;
+                    }
                 case "me":              //< User action
-                {
-                    UserAction(sender, command);
-                    break;
-                }
+                    {
+                        UserAction(sender, command);
+                        break;
+                    }
                 case "whisper":         //< User whisper
-                {
-                    UserWhisper(sender, command);
-                    break;
-                }
+                    {
+                        UserWhisper(sender, command);
+                        break;
+                    }
                 case "changename":      //< User change name
-                {
-                    UserChangeName(sender, command);
-                    break;
-                }
+                    {
+                        UserChangeName(sender, command);
+                        break;
+                    }
                 case "keep-alive":      //< Keep-Alive packet
-                {
-                    sender.KeepAlive();
-                    break;
-                }
+                    {
+                        sender.KeepAlive();
+                        break;
+                    }
                 case "disconnect":      //< User disconnect
-                {
-                    Disconnect(sender.Username);
-                    break;
-                }
+                    {
+                        Disconnect(sender.Username);
+                        break;
+                    }
                 default:                //< Invalid command
-                {
-                    ServerMessage("server", sender, $"\\crInvalid command \"{command}\"");
-                    break;
-                }
+                    {
+                        ServerMessage("server", sender, $"\\crInvalid command \"{command}\"");
+                        break;
+                    }
             }
         }
     }

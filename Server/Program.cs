@@ -35,16 +35,18 @@ namespace Carbonate.Server
             foreach (var value in descriptionArray)
                 description.Add(value);
             // Load other parameters
-            int maxOnlineCount = info["maxOnlineCount"];
-            int port = info["port"];
-            string workspace = info["workspace"];
+            int maxOnlineCount          = info["maxOnlineCount"];
+            int port                    = info["port"];
+            string workspace            = info["workspace"];
+            bool allowRegister          = info["allowRegister"];
             // Create server object
             server = new Server(
                 name,
                 description.ToArray(),
                 maxOnlineCount,
                 port,
-                workspace
+                workspace,
+                allowRegister
             );
             server.Start();
 

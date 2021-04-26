@@ -19,12 +19,12 @@ namespace Carbonate.Server
         {
             User backendUser = Users[user.Username];
             var arguments = command.arguments;
-            if(arguments.Count != 1)
+            if (arguments.Count != 1)
             {
                 ServerMessage("server", user, "\\crCommand only supports 1 arguments.");
                 return;
-            } 
-            else if(backendUser.muteTime > DateTime.Now)
+            }
+            else if (backendUser.muteTime > DateTime.Now)
             {
                 ServerMessage("server", user, "\\crYou are currently muted.");
                 return;
@@ -43,12 +43,12 @@ namespace Carbonate.Server
         {
             User backendUser = Users[user.Username];
             var arguments = command.arguments;
-            if(arguments.Count != 1)
+            if (arguments.Count != 1)
             {
                 ServerMessage("server", user, "\\crCommand only supports 1 arguments.");
                 return;
-            } 
-            else if(backendUser.muteTime > DateTime.Now)
+            }
+            else if (backendUser.muteTime > DateTime.Now)
             {
                 ServerMessage("server", user, "\\crYou are currently muted.");
                 return;
@@ -65,17 +65,17 @@ namespace Carbonate.Server
         {
             User backendUser = Users[user.Username];
             var arguments = command.arguments;
-            if(arguments.Count != 2)
+            if (arguments.Count != 2)
             {
                 ServerMessage("server", user, "\\crCommand only supports 2 arguments.");
                 return;
             }
-            else if(!OnlineUsers.ContainsKey(arguments[0]))
+            else if (!OnlineUsers.ContainsKey(arguments[0]))
             {
                 ServerMessage("server", user, $"\\crUser \"{arguments[0]}\" is offline or doesn't exist.");
                 return;
             }
-            else if(backendUser.muteTime > DateTime.Now)
+            else if (backendUser.muteTime > DateTime.Now)
             {
                 ServerMessage("server", user, "\\crYou are currently muted.");
                 return;
@@ -92,9 +92,14 @@ namespace Carbonate.Server
         {
             User backendUser = Users[user.Username];
             var arguments = command.arguments;
-            if(arguments.Count != 1)
+            if (arguments.Count != 1)
             {
                 ServerMessage("server", user, "\\crCommand only supports 1 arguments.");
+                return;
+            }
+            else if (!IsLegalNickname(arguments[0]))
+            {
+                ServerMessage("server", user, "\\crNickname contains invalid character.");
                 return;
             }
             if (!(backendUser.muteTime > DateTime.Now))

@@ -21,27 +21,27 @@ namespace Carbonate.Server
             response["accepted"] = false;
             if (!Users.ContainsKey(username))
             {   //  User doesn't exist
-                response["message"] = 
+                response["message"] =
                 "The user doesn't exist.";
             }
             else if (users[username].password != password)
             {   //  Incorrect password
-                response["message"] = 
+                response["message"] =
                 "Password incorrect.";
             }
             else if (Users[username].banTime > DateTime.Now)
             {   //  Ban user
-                response["message"] = 
+                response["message"] =
                 $"You are banned from the server until {Users[username].banTime.ToString("yyyy/MM/dd HH:mm:ss")}";
             }
             else if (onlineUsers.ContainsKey(username))
             {   //  Already login
-                response["message"] = 
+                response["message"] =
                 "User already login.";
             }
             else if (onlineUsers.Count >= MaxOnline)
             {   //  Server full
-                response["message"] = 
+                response["message"] =
                 "The server is full.";
             }
             else
@@ -50,10 +50,8 @@ namespace Carbonate.Server
                 response["message"] = "Welcome";
             }
             Packet.SendPacket(stream, response);
-            if(response["accepted"] == true)
+            if (response["accepted"] == true)
             {
-                Users[username].banTime = DateTime.MinValue;
-                Users[username].lastLoginTime = DateTime.Now;
                 Connect(username, client);
             }
             else

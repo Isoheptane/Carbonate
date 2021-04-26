@@ -33,6 +33,8 @@ namespace Carbonate.Server
             onlineUsers[username].KeepAlive();
             onlineUsers[username].BeginDaemon(this);
             User backendUser = Users[username];
+            backendUser.banTime = DateTime.MinValue;
+            backendUser.lastLoginTime = DateTime.Now;
             Broadcast("server", $"\\er{backendUser.nickname}\\rr({username})\\rr joined the server.");
             Info($"User \\er{backendUser.nickname}\\rr({username})\\rr from {client.Client.RemoteEndPoint} connected.");
         }

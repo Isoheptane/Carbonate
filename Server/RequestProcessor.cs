@@ -25,6 +25,10 @@ namespace Carbonate.Server
             {
                 ProcessConnectRequest(client, request, buffer);
             }
+            else if (requestType == "register")
+            {
+                ProcessRegisterRequest(client, request, buffer);
+            }
         }
     }
 

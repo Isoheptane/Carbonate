@@ -14,6 +14,7 @@ namespace Carbonate.Server
         int maxOnline;      //< Max Online User Count
         int port;           //< Server Port
         string workspace;   //< Workspace Directory
+        bool allowRegister; //< Allow register
 
         /// <value>Is the server running</value>
         public bool Running
@@ -60,6 +61,13 @@ namespace Carbonate.Server
         {
             get { return workspace; }
         }
+
+        /// <value>If the server allows register.</value>
+        public bool AllowRegister
+        {
+            get { return allowRegister; }
+            set { allowRegister = value; }
+        }
         
         /// <summary>
         /// Create a empty object.
@@ -76,7 +84,8 @@ namespace Carbonate.Server
             string[] description,
             int maxOnline,
             int port,
-            string workspace
+            string workspace,
+            bool allowRegister
         )
         {
             this.name           = name;
@@ -84,6 +93,7 @@ namespace Carbonate.Server
             this.maxOnline      = maxOnline;
             this.port           = port;
             this.workspace      = workspace;
+            this.allowRegister  = allowRegister;
         }
         
         /// <summary>
@@ -101,6 +111,7 @@ namespace Carbonate.Server
             Write($"  Max Online: {MaxOnline}\n");
             Write($"  Port: {Port}\n");
             Write($"  Workspace Directory: {WorkspaceDirectory}\n");
+            Write($"  Allow Register: {AllowRegister}\n");
             // Initialize listener
             TcpListener listener = new TcpListener(IPAddress.IPv6Any, Port);
             listenerThread = new System.Threading.Thread(() => { StartListener(listener); });
