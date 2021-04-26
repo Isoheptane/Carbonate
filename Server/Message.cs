@@ -67,7 +67,7 @@ namespace Carbonate.Server
             AsyncBroadcastPacket(
                 GenerateMessagePacket("broadcast", sender, message)
             );
-            Info($"\\ar{sender}\\ar> \\rr{message}");
+            Info($"\\arBroadcast:\\er{sender}\\ar> \\rr{message}");
         }
 
         /// <summary>
