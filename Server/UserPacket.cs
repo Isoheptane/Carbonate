@@ -53,7 +53,7 @@ namespace Carbonate.Server
                     }
                 default:                //< Invalid command
                     {
-                        ServerMessage("server", sender, $"\\crInvalid command \"{command}\"");
+                        ServerMessage("server", sender, $"\\crInvalid command \"{command.command}\"");
                         break;
                     }
             }
