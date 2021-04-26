@@ -29,6 +29,7 @@ namespace Carbonate.Server
                 ServerMessage("server", user, "\\crYou are currently muted.");
                 return;
             }
+            backendUser.lastChatTime = DateTime.Now;
             ChatMessage(user, arguments[0]);
             Info($"<{backendUser.nickname}\\rr> {arguments[0]}");
         }
@@ -52,6 +53,7 @@ namespace Carbonate.Server
                 ServerMessage("server", user, "\\crYou are currently muted.");
                 return;
             }
+            backendUser.lastChatTime = DateTime.Now;
             ActionMessage(user, arguments[0]);
             Info($"\\cr* \\rr{backendUser.nickname} \\rr{arguments[0]}");
         }
@@ -79,7 +81,25 @@ namespace Carbonate.Server
                 return;
             }
             WhisperMessage(user, OnlineUsers[arguments[0]], arguments[1]);
+            ServerMessage("server", user, $"\\7rYou whispered to {Users[arguments[0]].nickname}\\rr: {arguments[1]}");
             Info($"\\7r<{backendUser.nickname}\\7r> -> <{Users[arguments[0]].nickname}\\7r> {arguments[1]}");
+        }
+
+        /// <summary>
+        /// Change user's own name
+        /// </summary>
+        void UserChangeName(OnlineUser user, CommandPacket command)
+        {
+            User backendUser = Users[user.Username];
+            var arguments = command.arguments;
+            if(arguments.Count != 1)
+            {
+                ServerMessage("server", user, "\\crCommand only supports 1 arguments.");
+                return;
+            }
+            if (!(backendUser.muteTime > DateTime.Now))
+                Broadcast("server", $"{backendUser.nickname}\\rr changed name to {arguments[0]}");
+            backendUser.nickname = arguments[0];
         }
     }
 }

@@ -26,14 +26,19 @@ namespace Carbonate.Server
                     UserChat(sender, command);
                     break;
                 }
+                case "me":              //< User action
+                {
+                    UserAction(sender, command);
+                    break;
+                }
                 case "whisper":         //< User whisper
                 {
                     UserWhisper(sender, command);
                     break;
                 }
-                case "me":         //< User whisper
+                case "changename":      //< User change name
                 {
-                    UserAction(sender, command);
+                    UserChangeName(sender, command);
                     break;
                 }
                 case "keep-alive":      //< Keep-Alive packet
