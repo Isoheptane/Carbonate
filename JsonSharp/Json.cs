@@ -18,13 +18,7 @@ namespace JsonSharp
     {
         public static bool IsSpace(char ch)
         {
-            return (
-                ch == ' ' ||
-                ch == '\n' ||
-                ch == '\r' ||
-                ch == '\t' ||
-                ch == '\f'
-                );
+            return ch <= 32;
         }
         public static void IgnoreSpaces(ref string str, ref int ptr)
         {
@@ -33,7 +27,7 @@ namespace JsonSharp
         public static string ReadString(ref string str, ref int ptr)
         {
             if (str[ptr] != '\"') throw new Exception("Expected \"\"\" at the head of a string definition.");
-            string ret = "";
+            StringBuilder ret = new StringBuilder();
             ptr++;
             while (str[ptr] != '\"')
             {
@@ -41,25 +35,25 @@ namespace JsonSharp
                 {
                     switch (str[ptr + 1])
                     {
-                        case '\\': { ret += '\\'; break; }
-                        case '\"': { ret += '\"'; break; }
-                        case 'n': { ret += '\n'; break; }
-                        case 'b': { ret += '\b'; break; }
-                        case '0': { ret += '\0'; break; }
-                        case 'a': { ret += '\a'; break; }
-                        case 'f': { ret += '\f'; break; }
-                        case 'r': { ret += '\r'; break; }
-                        case 't': { ret += '\t'; break; }
-                        case 'v': { ret += '\v'; break; }
+                        case '\\': { ret.Append('\\'); break; }
+                        case '\"': { ret.Append('\"'); break; }
+                        case 'n': { ret.Append('\n'); break; }
+                        case 'b': { ret.Append('\b'); break; }
+                        case '0': { ret.Append('\0'); break; }
+                        case 'a': { ret.Append('\a'); break; }
+                        case 'f': { ret.Append('\f'); break; }
+                        case 'r': { ret.Append('\r'); break; }
+                        case 't': { ret.Append('\t'); break; }
+                        case 'v': { ret.Append('\v'); break; }
                     }
                     ptr += 2;
                     continue;
                 }
-                ret += str[ptr];
+                ret.Append(str[ptr]);
                 ptr++;
             }
             ptr++;
-            return ret;
+            return ret.ToString();
         }
         public static string ReadString(string str)
         {

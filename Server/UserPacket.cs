@@ -48,6 +48,7 @@ namespace Carbonate.Server
                     }
                 case "disconnect":      //< User disconnect
                     {
+                        DisconnectMessage(sender, "server", "User disconnected.");
                         Disconnect(sender.Username);
                         break;
                     }

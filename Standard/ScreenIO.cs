@@ -85,6 +85,48 @@ namespace Carbonate.Standard
             Console.ForegroundColor = foreground; //< Restore console color
             Console.BackgroundColor = background; //<
         }
+        
+        /// <summary>
+        /// Gets the actual string to output.
+        /// </summary>
+        public static string Escape(string message)
+        {
+            StringBuilder escaped = new StringBuilder();
+            for (int currentPtr = 0; currentPtr < message.Length; currentPtr++)
+            {
+                if (message[currentPtr] == '\\')    //< When meets escape
+                {
+                    if (                            //< Foreground / Background color formatter
+                        currentPtr + 2 < message.Length &&
+                        IsLegalColorFormatter(message[currentPtr + 1]) &&
+                        IsLegalColorFormatter(message[currentPtr + 2])
+                    )
+                    {
+                        currentPtr += 2;
+                    }
+                    else if (                       //< Foreground color formatter
+                        currentPtr + 1 < message.Length &&
+                        IsLegalColorFormatter(message[currentPtr + 1])
+                    )
+                    {
+                        currentPtr += 1;
+                    }
+                    else if (                       //< '/' Escape
+                        currentPtr + 1 < message.Length &&
+                        message[currentPtr + 1] == '\\'
+                    )
+                    {
+                        escaped.Append(message[currentPtr]);
+                        currentPtr += 1;
+                    }
+                }
+                else                                //< Regular character
+                {
+                    escaped.Append(message[currentPtr]);
+                }
+            }
+            return escaped.ToString();
+        }
 
         /// <value>The current time represented as hh:mm:ss format.</value>
         public static string CurrentTimeString

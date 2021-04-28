@@ -67,7 +67,7 @@ namespace Carbonate.Server
             AsyncBroadcastPacket(
                 GenerateMessagePacket("broadcast", sender, message)
             );
-            Info($"\\arBroadcast:\\er{sender}\\ar> \\rr{message}");
+            Info($"\\arBroadcast:\\9r{sender}\\ar> \\rr{message}");
         }
 
         /// <summary>
@@ -134,6 +134,19 @@ namespace Carbonate.Server
                  message
             );
             AsyncBroadcastPacket(messagePacket);
+        }
+
+        /// <summary>
+        /// Send force disconnect message
+        /// </summary>
+        public void DisconnectMessage(OnlineUser receiver, string sender, string message)
+        {
+            Packet messagePacket = GenerateMessagePacket(
+                "disconnect",
+                sender,
+                message
+            );
+            SendPacket(receiver, messagePacket);
         }
 
     }
