@@ -20,7 +20,7 @@ namespace Carbonate.Server
                 descriptionLines.elements.Add(lines);
             response["name"] = Name;
             response["description"] = descriptionLines;
-            response["program"] = "Carbonate Hydro Alpha";
+            response["program"] = "Carbonate Hydro Beta";
             response["online"] = 0;
             response["maxOnline"] = MaxOnline;
             if (users.ContainsKey(request["username"]))
