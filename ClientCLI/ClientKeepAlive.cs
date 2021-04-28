@@ -23,7 +23,8 @@ namespace ClientCLI
                 try
                 {
                     Thread.Sleep(2000);
-                    KeepAlive();
+                    if(connected)
+                        KeepAlive();
                 }
                 catch (Exception ex)
                 {

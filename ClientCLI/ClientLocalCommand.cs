@@ -32,10 +32,21 @@ namespace ClientCLI
                         Ping(command);
                         break;
                     }
+                case "disconnect":
+                    {
+                        Disconnect();
+                        break;
+                    }
                 case "clear":
                     {
                         Console.Clear();
                         Initialize();
+                        break;
+                    }
+                case "fs":
+                case "flowspeed":
+                    {
+                        SetFlowSpeed(command);
                         break;
                     }
                 case "exit":
@@ -102,7 +113,7 @@ namespace ClientCLI
             if (command.arguments.Count != 1)
             {
                 WriteLine("\\crLocal command \"register\" only supports 1 arguments:");
-                WriteLine("\\cr  !register <address>[:port]");
+                WriteLine("\\cr  !ping <address>[:port]");
                 return;
             }
             try
@@ -118,6 +129,31 @@ namespace ClientCLI
             catch (Exception ex)
             {
                 WriteLine($"\\crFailed to connect to the server: {ex.Message}");
+            }
+        }
+
+        static void Disconnect()
+        {
+            client.Disconnect();
+            WriteLine("\\crForced disconnect.");
+        }
+
+        static void SetFlowSpeed(Command command)
+        {
+            if (command.arguments.Count != 1)
+            {
+                WriteLine("\\crLocal command \"register\" only supports 1 arguments:");
+                WriteLine("\\cr  !flowspeed <miliseconds>");
+                return;
+            }
+            try
+            {
+                flowspeed = int.Parse(command.arguments[0]);
+                WriteLine($"\\erChanged flowspeed to \\cr{flowspeed} \\ermiliseconds.");
+            }
+            catch (Exception ex)
+            {
+                WriteLine($"\\crFailed to change flow speed: {ex.Message}");
             }
         }
     }

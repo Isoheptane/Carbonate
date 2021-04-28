@@ -1,5 +1,8 @@
 using System;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using Carbonate.Standard;
 using static Carbonate.Standard.ScreenIO;
 
@@ -7,6 +10,7 @@ namespace ClientCLI
 {
     public class ScreenManager
     {
+        public static int flowspeed;
         public static object screenLock = new object();
         public static void Initialize()
         {
@@ -15,25 +19,33 @@ namespace ClientCLI
             Console.SetCursorPosition(0, Console.BufferHeight - 3);
         }
 
-        public static void WriteLine(string message)
+        public static void WriteSingleLine(string message)
         {
             lock (screenLock)
             {
                 int interruptX = Console.CursorLeft;
                 int interruptY = Console.CursorTop;
 
-                int lines = MessageLines(Unescape(message));
-                if (lines >= Console.BufferHeight / 3)
-                {
-                    message = TrimToLines(message, Console.BufferHeight / 3);
-                    lines = MessageLines(Unescape(message));
-                }
-                Console.MoveBufferArea(0, lines, Console.BufferWidth, Console.BufferHeight - 3 - lines, 0, 0);
+                int lines = 1;
+                Console.MoveBufferArea(0, 1, Console.BufferWidth, Console.BufferHeight - 4, 0, 0);
                 Console.SetCursorPosition(0, Console.BufferHeight - 4 - lines);
                 ScreenIO.Write(message + '\n');
                 Console.SetCursorPosition(interruptX, interruptY);
 
             }
+        }
+
+        public static void WriteLine(string message)
+        {
+            string[] lines = GetLines(message);
+            Task.Run(() => 
+            {
+                foreach (string line in lines)
+                {
+                    WriteSingleLine(line);
+                    Thread.Sleep(flowspeed);
+                }
+            });
         }
 
         public static string Read(string prompt = "")
@@ -64,29 +76,30 @@ namespace ClientCLI
             return rows;
         }
 
-        public static string TrimToLines(string message, int targetLine)
+        public static string[] GetLines(string message)
         {
-            StringBuilder trim = new StringBuilder();
-            string[] lines = message.Split('\n');
-            int rows = 0;
-            foreach (string line in lines)
+            string[] originalLines = message.Split('\n');
+            List<string> lines = new List<string>();
+            foreach (string line in originalLines)
             {
-                int col = 0;
+                StringBuilder currentLine = new StringBuilder();
+                int length = 0;
                 foreach (char ch in line)
                 {
-                    trim.Append(ch);
-                    col++;
-                    if(col >= Console.BufferWidth)
+                    int charLength = ch < 256 ? 1 : 2;
+                    if (length + charLength >= Console.BufferWidth)
                     {
-                        rows++;
-                        col = 0;
+                        lines.Add(currentLine.ToString());
+                        currentLine.Clear();
+                        length = charLength;
+                        currentLine.Append(ch);
                     }
-                    if(rows > targetLine)
-                        return trim.ToString();
+                    else
+                        currentLine.Append(ch);
                 }
-                rows++;
+                lines.Add(currentLine.ToString());
             }
-            return trim.ToString();
+            return lines.ToArray();
         }
 
         public static int StringCharLength(string str)
