@@ -84,6 +84,7 @@ namespace ClientCLI
             {
                 connected = true;
                 WriteLine($"Server accepted connection: {message}");
+                serverKeepAlive = DateTime.Now.AddMilliseconds(5000);
             }
             else
             {
@@ -116,6 +117,7 @@ namespace ClientCLI
             {
                 connected = true;
                 WriteLine($"Server accepted register: {message}");
+                serverKeepAlive = DateTime.Now.AddMilliseconds(5000);
             }
             else
             {

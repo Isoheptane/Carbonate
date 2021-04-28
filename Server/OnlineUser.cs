@@ -46,6 +46,7 @@ namespace Carbonate.Standard
         public void KeepAlive()
         {
             keepalive = DateTime.Now.AddSeconds(5);
+            Send(Server.Server.GenerateMessagePacket("keep-alive", "server", ""));
         }
 
         /// <summary>

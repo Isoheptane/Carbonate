@@ -25,6 +25,12 @@ namespace ClientCLI
         {
             while (client.Connected)
             {
+                if (DateTime.Now > client.serverKeepAlive)
+                {
+                    WriteLine("\\crDisconnected due to server keep-alive.");
+                    client.Disconnect();
+                    break;
+                }
                 if (!client.DataAvailable)
                 {
                     Thread.Sleep(1);
@@ -53,7 +59,7 @@ namespace ClientCLI
                             }
                         case "server":
                             {
-                                WriteLine($"\\ar{(string)packet["sender"]}: {message}");
+                                WriteLine($"\\9r{(string)packet["sender"]}\\rr: {message}");
                                 break;
                             }
                         case "broadcast":
@@ -61,9 +67,14 @@ namespace ClientCLI
                                 WriteLine($"\\arBroadcast:\\9r{(string)packet["sender"]}\\ar> \\rr{message}");
                                 break;
                             }
+                        case "keep-alive":
+                            {
+                                client.serverKeepAlive = DateTime.Now.AddMilliseconds(5000);
+                                break;
+                            }
                         case "disconnect":
                             {
-                                WriteLine($"\\crDisconnected:\\rr {sender}:{message}");
+                                WriteLine($"\\crDisconnected: \\9r{sender}\\rr: {message}");
                                 client.Disconnect();
                                 break;
                             }

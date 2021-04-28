@@ -41,6 +41,11 @@ namespace Carbonate.Server
                         UserChangeName(sender, command);
                         break;
                     }
+                case "manual":
+                    {
+                        UserGetManual(sender, command);
+                        break;
+                    }
                 case "keep-alive":      //< Keep-Alive packet
                     {
                         sender.KeepAlive();

@@ -11,7 +11,7 @@ namespace ClientCLI
 {
     public partial class Client
     {
-
+        public DateTime serverKeepAlive;
         Thread keepAliveThread;
 
         void KeepAlive() => Send(new CommandPacket("keep-alive").ToPacket());
@@ -22,8 +22,8 @@ namespace ClientCLI
             {
                 try
                 {
-                    KeepAlive();
                     Thread.Sleep(2000);
+                    KeepAlive();
                 }
                 catch (Exception ex)
                 {
