@@ -24,7 +24,6 @@ namespace ClientCLI
                 JsonObject config = JsonObject.Parse(File.ReadAllText("client_config.json"));
                 username    = config["username"];
                 nickname    = config["nickname"];
-                flowspeed   = (int)config["flowspeed"];
                 password    = PasswordHash.SHA256x7(config["password"]);
             }
             else
@@ -33,7 +32,6 @@ namespace ClientCLI
                 config["username"]  = "username";
                 config["nickname"]  = "nickname";
                 config["password"]  = "password";
-                config["flowspeed"] = 0;
                 File.WriteAllText("client_config.json", config.Serialize());
                 WriteLine(
                     "\\crClient configure file doesn't exist!\n" +

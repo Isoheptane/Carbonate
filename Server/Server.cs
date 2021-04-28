@@ -15,6 +15,7 @@ namespace Carbonate.Server
         int port;           //< Server Port
         string workspace;   //< Workspace Directory
         bool allowRegister; //< Allow register
+        int autosave;       //< Autosave inverval
 
         /// <value>Is the server running</value>
         public bool Running
@@ -85,7 +86,8 @@ namespace Carbonate.Server
             int maxOnline,
             int port,
             string workspace,
-            bool allowRegister
+            bool allowRegister,
+            int autosave
         )
         {
             this.name           = name;
@@ -94,6 +96,7 @@ namespace Carbonate.Server
             this.port           = port;
             this.workspace      = workspace;
             this.allowRegister  = allowRegister;
+            this.autosave       = autosave;
         }
         
         /// <summary>
@@ -121,6 +124,8 @@ namespace Carbonate.Server
             LoadUserProfiles();
             Info($"{users.Count} user profiles loaded.");
             Info($"Server started at {CurrentTimeString}.");
+
+            AutoSave();
         }
 
         /// <summary>

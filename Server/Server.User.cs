@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using Carbonate.Standard;
@@ -9,6 +10,8 @@ namespace Carbonate.Server
 {
     public partial class Server
     {
+
+        Thread autosaveThread;
 
         ConcurrentDictionary<string, ServerUser> users = new ConcurrentDictionary<string, ServerUser>();
 
@@ -58,6 +61,27 @@ namespace Carbonate.Server
                 }
             }
             return savedCount;
+        }
+
+        void AutoSave()
+        {
+            autosaveThread = new Thread(() => 
+            {
+                DateTime nextSave = DateTime.Now;
+                while(serverOn)
+                {
+                    if(DateTime.Now > nextSave)
+                    {
+                        nextSave = DateTime.Now.AddSeconds(autosave);
+                        Info($"\\8rAuto saved {SaveUserProfiles()} user profiles.");
+                    }
+                    else
+                    {
+                        Thread.Sleep(1000);
+                    }
+                }
+            });
+            autosaveThread.Start();
         }
 
     }
