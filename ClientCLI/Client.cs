@@ -12,7 +12,8 @@ namespace ClientCLI
     public partial class Client
     {
         bool connected = false;
-        byte[] buffer = new byte[65536];
+        byte[] pingBuffer = new byte[256000];
+        byte[] buffer = new byte[256000];
         public string username;
         public string nickname;
         public string password;
@@ -30,10 +31,11 @@ namespace ClientCLI
             this.password = password;
         }
 
-        void CreateClient()
+        TcpClient CreateClient()
         {
-            client = new TcpClient();
+            TcpClient client = new TcpClient();
             client.Client.DualMode = true;
+            return client;
         }
 
         void DisposeClient()
@@ -70,7 +72,7 @@ namespace ClientCLI
         /// <param name="remote">Remote server</param>
         public bool Connect(IPEndPoint remote)
         {
-            CreateClient();
+            client = CreateClient();
             client.Connect(remote);
             stream = client.GetStream();
             Packet request = new Packet();
@@ -102,7 +104,7 @@ namespace ClientCLI
         /// <param name="remote">Remote server</param>
         public bool Register(IPEndPoint remote)
         {
-            CreateClient();
+            client = CreateClient();
             client.Connect(remote);
             stream = client.GetStream();
             Packet request = new Packet();
@@ -135,15 +137,19 @@ namespace ClientCLI
         /// <param name="remote">Remote server</param>
         public Packet Ping(IPEndPoint remote)
         {
-            CreateClient();
-            client.Connect(remote);
-            stream = client.GetStream();
+            TcpClient pingClient = CreateClient();
+            pingClient.Connect(remote);
+            NetworkStream pingStream = pingClient.GetStream();
             Packet request = new Packet();
             request["requestType"] = "ping";
             request["username"] = username;
-            Send(request);
-            Packet result = Receive();
-            DisposeClient();
+            Packet.SendPacket(pingStream, request);
+            Packet result = Packet.ReceivePacket(pingStream, pingBuffer);
+            pingStream.Close();
+            pingClient.Close();
+            pingClient.Dispose();
+            pingStream = null;
+            pingClient = null;
             return result;
         }
 
