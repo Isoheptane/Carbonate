@@ -43,12 +43,6 @@ namespace ClientCLI
                         Initialize();
                         break;
                     }
-                case "fs":
-                case "flowspeed":
-                    {
-                        SetFlowSpeed(command);
-                        break;
-                    }
                 case "exit":
                     {
                         Environment.Exit(0);
@@ -56,7 +50,7 @@ namespace ClientCLI
                     }
                 default:
                     {
-                        WriteLine($"\\crInvalid command \"{command.command}\".\n");
+                        WriteLine($"\\crInvalid command \"{command.command}\".");
                         break;
                     }
             }
@@ -136,25 +130,6 @@ namespace ClientCLI
         {
             client.Disconnect();
             WriteLine("\\crForced disconnect.");
-        }
-
-        static void SetFlowSpeed(Command command)
-        {
-            if (command.arguments.Count != 1)
-            {
-                WriteLine("\\crLocal command \"register\" only supports 1 arguments:");
-                WriteLine("\\cr  !flowspeed <miliseconds>");
-                return;
-            }
-            try
-            {
-                flowspeed = int.Parse(command.arguments[0]);
-                WriteLine($"\\erChanged flowspeed to \\cr{flowspeed} \\ermiliseconds.");
-            }
-            catch (Exception ex)
-            {
-                WriteLine($"\\crFailed to change flow speed: {ex.Message}");
-            }
         }
     }
 }

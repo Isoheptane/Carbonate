@@ -10,7 +10,6 @@ namespace ClientCLI
 {
     public class ScreenManager
     {
-        public static int flowspeed;
         public static object screenLock = new object();
         public static void Initialize()
         {
@@ -41,10 +40,7 @@ namespace ClientCLI
             Task.Run(() => 
             {
                 foreach (string line in lines)
-                {
                     WriteSingleLine(line);
-                    Thread.Sleep(flowspeed);
-                }
             });
         }
 
