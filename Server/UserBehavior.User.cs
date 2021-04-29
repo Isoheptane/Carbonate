@@ -31,5 +31,22 @@ namespace Carbonate.Server
                 Broadcast("server", $"{backendUser.nickname}\\rr changed name to {arguments[0]}");
             backendUser.nickname = arguments[0];
         }
+
+        /// <summary>
+        /// User gets the current online list
+        /// </summary>
+        void UserGetOnlineList(OnlineUser user, CommandPacket command)
+        {
+            StringBuilder message = new StringBuilder();
+            message.Append($"\n\\erThere are \\cr{OnlineUsers.Count} \\erusers online:\n");
+            int counter = 0;
+            foreach(var onlineUser in OnlineUsers)
+            {
+                counter++;
+                string username = onlineUser.Value.Username;
+                message.Append($"{Users[username].nickname}\\rr({username})" + (counter == OnlineUsers.Count ? "" : ", "));
+            }
+            ServerMessage("server", user, message.ToString());
+        }
     }
 }

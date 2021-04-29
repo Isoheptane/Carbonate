@@ -31,7 +31,7 @@ namespace Carbonate.Server
                         UserAction(sender, command);
                         break;
                     }
-                case "whisper":         //< User whisper
+                case "tell":            //< User whisper
                     {
                         UserWhisper(sender, command);
                         break;
@@ -41,9 +41,14 @@ namespace Carbonate.Server
                         UserChangeName(sender, command);
                         break;
                     }
-                case "manual":
+                case "manual":          //< User gets server manual
                     {
                         UserGetManual(sender, command);
+                        break;
+                    }
+                case "list":            //< User list all messages
+                    {
+                        UserGetOnlineList(sender, command);
                         break;
                     }
                 case "keep-alive":      //< Keep-Alive packet
