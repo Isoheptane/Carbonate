@@ -64,9 +64,9 @@ namespace Carbonate.Server
         /// </summary>
         public void Broadcast(string sender, string message)
         {
-            AsyncBroadcastPacket(
-                GenerateMessagePacket("broadcast", sender, message)
-            );
+            Packet packet = GenerateMessagePacket("broadcast", sender, message);
+            AsyncBroadcastPacket(packet);
+            EnqueueHistory(packet);
             Info($"\\arBroadcast:\\9r{sender}\\ar> \\rr{message}");
         }
 
@@ -94,13 +94,14 @@ namespace Carbonate.Server
         /// </summary>
         public void ChatMessage(OnlineUser sender, string message)
         {
-            Packet messagePacket = GenerateMessagePacket(
+            Packet packet = GenerateMessagePacket(
                 "chat",
                  sender.Username,
                  Users[sender.Username].nickname,
                  message
             );
-            AsyncBroadcastPacket(messagePacket);
+            AsyncBroadcastPacket(packet);
+            EnqueueHistory(packet);
         }
 
         /// <summary>
@@ -108,13 +109,13 @@ namespace Carbonate.Server
         /// </summary>
         public void WhisperMessage(OnlineUser sender, OnlineUser user, string message)
         {
-            Packet messagePacket = GenerateMessagePacket(
+            Packet packet = GenerateMessagePacket(
                 "whisper",
                  sender.Username,
                  Users[sender.Username].nickname,
                  message
             );
-            SendPacket(user, messagePacket);
+            SendPacket(user, packet);
         }
 
         /// <summary>
@@ -127,13 +128,14 @@ namespace Carbonate.Server
 
         public void ActionMessage(OnlineUser sender, string message)
         {
-            Packet messagePacket = GenerateMessagePacket(
+            Packet packet = GenerateMessagePacket(
                 "action",
                  sender.Username,
                  Users[sender.Username].nickname,
                  message
             );
-            AsyncBroadcastPacket(messagePacket);
+            AsyncBroadcastPacket(packet);
+            EnqueueHistory(packet);
         }
 
         /// <summary>

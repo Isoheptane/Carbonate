@@ -10,3 +10,5 @@ workspace/
 Tester/bin/
 Tester/obj/
 Tester/Program.cs
+client_config.json
+server_config.json

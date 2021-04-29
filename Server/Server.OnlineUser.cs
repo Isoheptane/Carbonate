@@ -29,12 +29,14 @@ namespace Carbonate.Server
         /// <param name="client">Remote client object</param>
         public void Connect(string username, TcpClient client)
         {
-            onlineUsers.TryAdd(username, new OnlineUser(username, client));
+            OnlineUser user = new OnlineUser(username, client);
+            onlineUsers.TryAdd(username, user);
             onlineUsers[username].KeepAlive();
             onlineUsers[username].BeginDaemon(this);
             User backendUser = Users[username];
             backendUser.banTime = DateTime.MinValue;
             backendUser.lastLoginTime = DateTime.Now;
+            SendHistory(user);
             Broadcast("server", $"\\er{backendUser.nickname}\\rr({username})\\rr joined the server.");
             Info($"User \\er{backendUser.nickname}\\rr({username})\\rr from {client.Client.RemoteEndPoint} connected.");
         }

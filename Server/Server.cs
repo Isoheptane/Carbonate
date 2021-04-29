@@ -1,7 +1,9 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Collections.Generic;
 using Carbonate.Standard;
+using JsonSharp;
 using static Carbonate.Standard.ScreenIO;
 
 namespace Carbonate.Server
@@ -76,27 +78,22 @@ namespace Carbonate.Server
         public Server() {}
         
         /// <summary>
-        /// Create a server object with indicated information.
+        /// Create a server object with JSON configure file.
         /// </summary>
-        /// <param name="maxOnline">Max online user count</param>
-        /// <param name="workspace">Workspace directory, where the files are stored</param>
-        public Server(
-            string name,
-            string[] description,
-            int maxOnline,
-            int port,
-            string workspace,
-            bool allowRegister,
-            int autosave
-        )
+        public Server(JsonObject json)
         {
-            this.name           = name;
-            this.description    = description;
-            this.maxOnline      = maxOnline;
-            this.port           = port;
-            this.workspace      = workspace;
-            this.allowRegister  = allowRegister;
-            this.autosave       = autosave;
+            this.name           = json["name"];
+            // Load Description
+            List<string> lines = new List<string>();
+            foreach (var line in ((JsonArray)json["description"]).elements)
+                lines.Add(line);
+            this.description = lines.ToArray();
+            this.maxOnline          = json["maxOnline"];
+            this.port               = json["port"];
+            this.workspace          = json["workspace"];
+            this.allowRegister      = json["allowRegister"];
+            this.autosave           = json["autosave"];
+            this.historyCapacity    = json["historyCapacity"];
         }
         
         /// <summary>
@@ -120,6 +117,7 @@ namespace Carbonate.Server
             listenerThread = new System.Threading.Thread(() => { StartListener(listener); });
             listenerThread.Name = "Listener Thread";
             listenerThread.Start();
+            historyMessage = new Queue<Packet>();
 
             LoadUserProfiles();
             Info($"{users.Count} user profiles loaded.");

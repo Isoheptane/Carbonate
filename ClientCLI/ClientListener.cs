@@ -38,33 +38,22 @@ namespace ClientCLI
                 }
                 try {
                     Packet packet = client.Receive();
-                    string sender = packet["sender"];
-                    string message = packet["message"];
                     switch ((string)packet["messageType"])
                     {
                         case "chat":
-                            {
-                                WriteLine($"<{(string)packet["senderNickname"]}\\rr> {message}");
-                                break;
-                            }
                         case "whisper":
-                            {
-                                WriteLine($"\\8r{(string)packet["senderNickname"]}\\8r whispered to you: {message}");
-                                break;
-                            }
                         case "action":
-                            {
-                                WriteLine($"\\cr* \\rr{(string)packet["senderNickname"]} {message}");
-                                break;
-                            }
                         case "server":
-                            {
-                                WriteLine($"\\9r{(string)packet["sender"]}\\rr: {message}");
-                                break;
-                            }
                         case "broadcast":
                             {
-                                WriteLine($"\\arBroadcast:\\9r{(string)packet["sender"]}\\ar> \\rr{message}");
+                                ShowMessage(packet.ToJsonObject());
+                                break;
+                            }
+                        case "history":
+                            {
+                                WriteLine("\\8r---- History Message ----");
+                                ShowGroupMessage(packet["messages"]);
+                                WriteLine("\\8r---- History Message ----");
                                 break;
                             }
                         case "keep-alive":
@@ -74,7 +63,7 @@ namespace ClientCLI
                             }
                         case "disconnect":
                             {
-                                WriteLine($"\\crDisconnected: \\9r{sender}\\rr: {message}");
+                                WriteLine($"\\crDisconnected: \\9r{(string)packet["sender"]}\\rr: {(string)packet["message"]}");
                                 client.Disconnect();
                                 break;
                             }
@@ -84,6 +73,46 @@ namespace ClientCLI
                 {
                     WriteLine($"\\crError: Error occured while receiving message: {ex.Message}");
                 }
+            }
+        }
+
+        static void ShowGroupMessage(JsonArray array)
+        {
+            foreach (var message in array.elements)
+                ShowMessage(message);
+        }
+
+        static void ShowMessage(JsonObject packet)
+        {
+            string sender = packet["sender"];
+            string message = packet["message"];
+            switch ((string)packet["messageType"])
+            {
+                case "chat":
+                    {
+                        WriteLine($"<{(string)packet["senderNickname"]}\\rr> {message}");
+                        break;
+                    }
+                case "whisper":
+                    {
+                        WriteLine($"\\8r{(string)packet["senderNickname"]}\\8r whispered to you: {message}");
+                        break;
+                    }
+                case "action":
+                    {
+                        WriteLine($"\\cr* \\rr{(string)packet["senderNickname"]} {message}");
+                        break;
+                    }
+                case "server":
+                    {
+                        WriteLine($"\\9r{(string)packet["sender"]}\\rr: {message}");
+                        break;
+                    }
+                case "broadcast":
+                    {
+                        WriteLine($"\\arBroadcast:\\9r{(string)packet["sender"]}\\ar> \\rr{message}");
+                        break;
+                    }
             }
         }
 

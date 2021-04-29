@@ -21,36 +21,8 @@ namespace Carbonate.Server
         {
             ScreenIO.Info("Carbonate Hydro Beta v0.1.1");
             ScreenIO.Warn("This server-side program is still under development, use it at your own risk.");
-            // Load config file
-            JsonObject info = JsonObject.Parse(
-                File.ReadAllText("workspace/server_config.json")
-            );
-            // Load server name
-            string name = info["name"];
-            // Load description;
-            var descriptionArray =
-                ((JsonArray)info["description"])
-                .elements
-                .ToArray();
-            var description = new List<string>();
-            foreach (var value in descriptionArray)
-                description.Add(value);
-            // Load other parameters
-            int maxOnlineCount          = info["maxOnlineCount"];
-            int port                    = info["port"];
-            string workspace            = info["workspace"];
-            bool allowRegister          = info["allowRegister"];
-            int autosave                = info["autosave"];
             // Create server object
-            server = new Server(
-                name,
-                description.ToArray(),
-                maxOnlineCount,
-                port,
-                workspace,
-                allowRegister,
-                autosave
-            );
+            server = new Server(JsonObject.Parse(File.ReadAllText("server_config.json")));
             server.Start();
 
             // Add event bind
