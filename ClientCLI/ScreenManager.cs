@@ -37,11 +37,8 @@ namespace ClientCLI
         public static void WriteLine(string message)
         {
             string[] lines = GetLines(message);
-            Task.Run(() => 
-            {
-                foreach (string line in lines)
-                    WriteSingleLine(line);
-            });
+            foreach (string line in lines)
+                WriteSingleLine(line);
         }
 
         public static string Read(string prompt = "")
