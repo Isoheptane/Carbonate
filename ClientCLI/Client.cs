@@ -72,6 +72,8 @@ namespace ClientCLI
         /// <param name="remote">Remote server</param>
         public bool Connect(IPEndPoint remote)
         {
+            if (Connected)
+                Disconnect();
             client = CreateClient();
             client.Connect(remote);
             stream = client.GetStream();
@@ -104,6 +106,8 @@ namespace ClientCLI
         /// <param name="remote">Remote server</param>
         public bool Register(IPEndPoint remote)
         {
+            if (Connected)
+                Disconnect();
             client = CreateClient();
             client.Connect(remote);
             stream = client.GetStream();
@@ -157,6 +161,23 @@ namespace ClientCLI
         /// Disconnect from the server
         /// </summary>
         public void Disconnect()
+        {
+            try
+            {
+                Send(new CommandPacket("disconnect").ToPacket());
+            }
+            catch (Exception ex)
+            {
+                WriteLine($"Error: Error occured while sending disconnect message: {ex.Message}");
+            }
+            DisposeClient();
+            connected = false;
+        }
+
+        /// <summary>
+        /// Disconnect from the server
+        /// </summary>
+        public void ForceDisconnect()
         {
             DisposeClient();
             connected = false;
