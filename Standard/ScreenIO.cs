@@ -1,11 +1,15 @@
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using JsonSharp;
 
 namespace Carbonate.Standard
 {
     public static class ScreenIO
     {
+
+        static object screenLock = new object();
+
         private static bool IsLegalColorFormatter(char colorChar)
         {
             if (colorChar >= '0' && colorChar <= '9')
@@ -36,54 +40,58 @@ namespace Carbonate.Standard
             else                                            //< This is not supposed to run
                 throw new Exception("The color formatter char is illegal.");
         }
+
         /// <summary>
         /// Write the message to the screen with color formatter.
         /// </summary>
         /// <param name="message">The message to be written</param>
         public static void Write(string message)
         {
-            var foreground = Console.ForegroundColor; //< Backup original console color
-            var background = Console.BackgroundColor; //
-
-            for (int currentPtr = 0; currentPtr < message.Length; currentPtr++)
+            lock (screenLock)
             {
-                if (message[currentPtr] == '\\')    //< When meets escape
-                {
-                    if (                            //< Foreground / Background color formatter
-                        currentPtr + 2 < message.Length &&
-                        IsLegalColorFormatter(message[currentPtr + 1]) &&
-                        IsLegalColorFormatter(message[currentPtr + 2])
-                    )
-                    {
-                        Console.ForegroundColor = ConvertColor(message[currentPtr + 1], foreground, background, true);
-                        Console.BackgroundColor = ConvertColor(message[currentPtr + 2], foreground, background, false);
-                        currentPtr += 2;
-                    }
-                    else if (                       //< Foreground color formatter
-                        currentPtr + 1 < message.Length &&
-                        IsLegalColorFormatter(message[currentPtr + 1])
-                    )
-                    {
-                        Console.ForegroundColor = ConvertColor(message[currentPtr + 1], foreground, background, true);
-                        currentPtr += 1;
-                    }
-                    else if (                       //< '/' Escape
-                        currentPtr + 1 < message.Length &&
-                        message[currentPtr + 1] == '\\'
-                    )
-                    {
-                        Console.Write('\\');
-                        currentPtr += 1;
-                    }
-                }
-                else                                //< Regular character
-                {
-                    Console.Write(message[currentPtr]);
-                }
-            }
+                var foreground = Console.ForegroundColor; //< Backup original console color
+                var background = Console.BackgroundColor; //
 
-            Console.ForegroundColor = foreground; //< Restore console color
-            Console.BackgroundColor = background; //<
+                for (int currentPtr = 0; currentPtr < message.Length; currentPtr++)
+                {
+                    if (message[currentPtr] == '\\')    //< When meets escape
+                    {
+                        if (                            //< Foreground / Background color formatter
+                            currentPtr + 2 < message.Length &&
+                            IsLegalColorFormatter(message[currentPtr + 1]) &&
+                            IsLegalColorFormatter(message[currentPtr + 2])
+                        )
+                        {
+                            Console.ForegroundColor = ConvertColor(message[currentPtr + 1], foreground, background, true);
+                            Console.BackgroundColor = ConvertColor(message[currentPtr + 2], foreground, background, false);
+                            currentPtr += 2;
+                        }
+                        else if (                       //< Foreground color formatter
+                            currentPtr + 1 < message.Length &&
+                            IsLegalColorFormatter(message[currentPtr + 1])
+                        )
+                        {
+                            Console.ForegroundColor = ConvertColor(message[currentPtr + 1], foreground, background, true);
+                            currentPtr += 1;
+                        }
+                        else if (                       //< '/' Escape
+                            currentPtr + 1 < message.Length &&
+                            message[currentPtr + 1] == '\\'
+                        )
+                        {
+                            Console.Write('\\');
+                            currentPtr += 1;
+                        }
+                    }
+                    else                                //< Regular character
+                    {
+                        Console.Write(message[currentPtr]);
+                    }
+                }
+
+                Console.ForegroundColor = foreground; //< Restore console color
+                Console.BackgroundColor = background; //<
+            }
         }
         
         /// <summary>
