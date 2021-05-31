@@ -4,6 +4,8 @@ Standard/bin/
 Standard/obj/
 Server/bin/
 Server/obj/
+Client/bin/
+Client/obj/
 ClientCLI/bin/
 ClientCLI/obj/
 workspace/

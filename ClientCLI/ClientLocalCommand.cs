@@ -68,10 +68,11 @@ namespace ClientCLI
             {
                 IPEndPoint ep = Converter.GetIPEndPoint(command.arguments[0]);
                 WriteLine($"\\erConnecting \\br{command.arguments[0]}\\rr(\\er{ep}\\rr)...");
-                if (client.Connect(ep))
-                {
-                    BeginListener();
-                }
+                var response = client.Connect(ep);
+                if (response.accpeted)
+                    WriteLine($"Server accepted connection: {response.message}");
+                else
+                    WriteLine($"\\crServer refused connection: {response.message}");
             }
             catch (Exception ex)
             {
@@ -91,10 +92,11 @@ namespace ClientCLI
             {
                 IPEndPoint ep = Converter.GetIPEndPoint(command.arguments[0]);
                 WriteLine($"\\erConnecting \\br{command.arguments[0]}\\rr(\\er{ep}\\rr)...");
-                if (client.Register(ep))
-                {
-                    BeginListener();
-                }
+                var response = client.Register(ep);
+                if (response.accpeted)
+                    WriteLine($"Server accepted registration: {response.message}");
+                else
+                    WriteLine($"\\crServer refused registration: {response.message}");
             }
             catch (Exception ex)
             {

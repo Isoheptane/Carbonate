@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Security.Cryptography;
 using Carbonate.Standard;
+using Carbonate.Client;
 using JsonSharp;
 using static ClientCLI.ScreenManager;
 
@@ -40,6 +41,11 @@ namespace ClientCLI
                 return;
             }
             client = new Client(username, nickname, password);
+            //  Register Events
+            client.events.OnMessageEvent += OnReceiveMessage;
+            client.events.ErrorEvent += OnError;
+            client.events.ServerDisconnectEvent += ServerDisconnect;
+            //  Splash
             WriteLine("Carbonate Client-CLI (Windows)");
             WriteLine($"User: \\br{nickname}\\rr({username})");
             while (true)

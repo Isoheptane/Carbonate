@@ -1,13 +1,12 @@
-using System;
+﻿using System;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using Carbonate.Standard;
 using System.Security.Cryptography;
-using static ClientCLI.ScreenManager;
 
-namespace ClientCLI
+namespace Carbonate.Client
 {
     public partial class Client
     {
@@ -70,8 +69,9 @@ namespace ClientCLI
         /// Connect to the indicated server.
         /// </summary>
         /// <param name="remote">Remote server</param>
-        public bool Connect(IPEndPoint remote)
+        public RequestResponse Connect(IPEndPoint remote)
         {
+            RequestResponse status;
             if (Connected)
                 Disconnect();
             client = CreateClient();
@@ -87,25 +87,26 @@ namespace ClientCLI
             if(response["accepted"] == true) 
             {
                 connected = true;
-                WriteLine($"Server accepted connection: {message}");
+                status = new RequestResponse(true, message);
                 serverKeepAlive = DateTime.Now.AddMilliseconds(5000);
+                BeginListener();
+                BeginKeepAlive();
             }
             else
             {
-                WriteLine($"\\crServer refused connection: {message}");
+                status = new RequestResponse(false, message);
                 DisposeClient();
             }
-            keepAliveThread = new Thread(StartKeepAlive);
-            keepAliveThread.Start();
-            return response["accepted"];
+            return status;
         }
 
         /// <summary>
         /// Register at the indicated server.
         /// </summary>
         /// <param name="remote">Remote server</param>
-        public bool Register(IPEndPoint remote)
+        public RequestResponse Register(IPEndPoint remote)
         {
+            RequestResponse status;
             if (Connected)
                 Disconnect();
             client = CreateClient();
@@ -122,17 +123,17 @@ namespace ClientCLI
             if(response["accepted"] == true) 
             {
                 connected = true;
-                WriteLine($"Server accepted register: {message}");
+                status = new RequestResponse(true, message);
                 serverKeepAlive = DateTime.Now.AddMilliseconds(5000);
+                BeginListener();
+                BeginKeepAlive();
             }
             else
             {
-                WriteLine($"\\crServer refused register: {message}");
+                status = new RequestResponse(false, message);
                 DisposeClient();
             }
-            keepAliveThread = new Thread(StartKeepAlive);
-            keepAliveThread.Start();
-            return response["accepted"];
+            return status;
         }
 
         /// <summary>
@@ -168,7 +169,10 @@ namespace ClientCLI
             }
             catch (Exception ex)
             {
-                WriteLine($"Error: Error occured while sending disconnect message: {ex.Message}");
+                events.RaiseErrorEvent(
+                    Thread.CurrentThread, 
+                    $"Error occured while sending disconnect message: {ex.Message}"
+                );
             }
             DisposeClient();
             connected = false;
