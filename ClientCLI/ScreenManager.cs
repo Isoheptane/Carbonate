@@ -18,6 +18,11 @@ namespace ClientCLI
             Console.SetCursorPosition(0, Console.BufferHeight - 3);
         }
 
+        static void ChangeLine() {
+            Console.MoveBufferArea(0, 1, Console.BufferWidth, Console.BufferHeight - 4, 0, 0);
+            Console.SetCursorPosition(0, Console.BufferHeight - 5);
+        }
+
         public static void WriteSingleLine(string message)
         {
             lock (screenLock)
@@ -25,10 +30,8 @@ namespace ClientCLI
                 int interruptX = Console.CursorLeft;
                 int interruptY = Console.CursorTop;
 
-                int lines = 1;
-                Console.MoveBufferArea(0, 1, Console.BufferWidth, Console.BufferHeight - 4, 0, 0);
-                Console.SetCursorPosition(0, Console.BufferHeight - 4 - lines);
-                ScreenIO.Write(message + '\n');
+                ChangeLine();
+                ScreenIO.Write('\n' + message);
                 Console.SetCursorPosition(interruptX, interruptY);
 
             }
@@ -77,8 +80,44 @@ namespace ClientCLI
             {
                 StringBuilder currentLine = new StringBuilder();
                 int length = 0;
-                foreach (char ch in line)
+                for (int i = 0; i < line.Length; i++)
                 {
+                    char ch = line[i];
+                    if (ch == '\\') {   //< Escape
+                        if (
+                            i + 2 < line.Length && 
+                            IsLegalColorFormatter(line[i + 1]) &&
+                            IsLegalColorFormatter(line[i + 2])
+                        )
+                        {
+                            currentLine.Append(ch);
+                            currentLine.Append(line[i + 1]);
+                            currentLine.Append(line[i + 2]);
+                            i += 2;
+                            continue;
+                        }
+                        else if (
+                            i + 1 < line.Length &&
+                            IsLegalColorFormatter(line[i + 1])
+                        )
+                        {
+                            currentLine.Append(ch);
+                            currentLine.Append(line[i + 1]);
+                            i += 1;
+                            continue;
+                        }
+                        else if (
+                            i + 1 < line.Length &&
+                            line[i + 1] == '\\'
+                        )
+                        {
+                            currentLine.Append('\\');
+                            currentLine.Append('\\');
+                            length += 1;
+                            i += 1;
+                            continue;
+                        }
+                    }
                     int charLength = ch < 256 ? 1 : 2;
                     if (length + charLength >= Console.BufferWidth)
                     {
@@ -88,13 +127,15 @@ namespace ClientCLI
                         currentLine.Append(ch);
                     }
                     else
+                    {
+                        length += charLength;
                         currentLine.Append(ch);
+                    }
                 }
                 lines.Add(currentLine.ToString());
             }
             return lines.ToArray();
         }
-
         public static int StringCharLength(string str)
         {
             int length = 0;
@@ -107,5 +148,6 @@ namespace ClientCLI
             }
             return length;
         }
+
     }
 }

@@ -30,7 +30,7 @@ namespace Carbonate.Client
                     {
                         events.RaiseErrorEvent(
                             Thread.CurrentThread,
-                            $"\\Error occured while sending keep-alive packet: {ex.Message}"
+                            $"Error occured while sending keep-alive packet: {ex.Message}"
                         );
                     }
                 }

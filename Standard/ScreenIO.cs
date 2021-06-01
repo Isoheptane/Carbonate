@@ -10,7 +10,7 @@ namespace Carbonate.Standard
 
         static object screenLock = new object();
 
-        private static bool IsLegalColorFormatter(char colorChar)
+        public static bool IsLegalColorFormatter(char colorChar)
         {
             if (colorChar >= '0' && colorChar <= '9')
                 return true;
