@@ -1,0 +1,13 @@
+{
+    "name": "\\cr碳酸盐 \\brCarbonate Server",
+    "description": [
+        "This is the template server-side configure file.",
+        "这是服务端的模板配置文件。"
+    ],
+    "maxOnline": 20,
+    "port": 7235,
+    "workspace": "workspace",
+    "allowRegister": true,
+    "autosave": 600,
+    "historyCapacity": 50
+}

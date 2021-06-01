@@ -8,9 +8,9 @@ Client/bin/
 Client/obj/
 ClientCLI/bin/
 ClientCLI/obj/
-workspace/
+/workspace/
+/client_config.json
+/server_config.json
 Tester/bin/
 Tester/obj/
 Tester/Program.cs
-client_config.json
-server_config.json
