@@ -9,6 +9,11 @@ namespace Carbonate.Server
 {
     public partial class Server
     {
+        /// <summary>
+        /// Send a packet to the indicated user.
+        /// </summary>
+        /// <param name="user">Indicated user</param>
+        /// <param name="packet">The packet to be sent</param>
         void SendPacket(OnlineUser user, Packet packet)
         {
             try
@@ -22,11 +27,17 @@ namespace Carbonate.Server
             }
         }
 
+        /// <summary>
+        /// Send a packet to the indicated user using a individual thread.
+        /// </summary>
         void AsyncSendPacket(OnlineUser user, Packet packet)
         {
             Task.Run(() => { SendPacket(user, packet); });
         }
 
+        /// <summary>
+        /// Send a packet to all connected user.
+        /// </summary>
         void BroadcastPacket(Packet packet)
         {
             foreach (var user in OnlineUsers)
@@ -35,11 +46,17 @@ namespace Carbonate.Server
             }
         }
 
+        /// <summary>
+        /// Send a packet to all connected user using a individual thread.
+        /// </summary>
         void AsyncBroadcastPacket(Packet packet)
         {
             Task.Run(() => { BroadcastPacket(packet); });
         }
 
+        /// <summary>
+        /// Generate a message packet using indicated informations.
+        /// </summary>
         public static Packet GenerateMessagePacket(string type, string sender, string message)
         {
             Packet messagePacket = new Packet();
@@ -49,6 +66,9 @@ namespace Carbonate.Server
             return messagePacket;
         }
 
+        /// <summary>
+        /// Generate a message packet using indicated informations.
+        /// </summary>
         public static Packet GenerateMessagePacket(string type, string sender, string senderNickname, string message)
         {
             Packet messagePacket = new Packet();
@@ -82,7 +102,7 @@ namespace Carbonate.Server
         }
 
         /// <summary>
-        /// Send message to a single user
+        /// Send message to a single user.
         /// </summary>
         public void AsyncServerMessage(string sender, OnlineUser user, string message)
         {
@@ -90,7 +110,7 @@ namespace Carbonate.Server
         }
         
         /// <summary>
-        /// Broadcast chat message
+        /// Broadcast chat message.
         /// </summary>
         public void ChatMessage(OnlineUser sender, string message)
         {

@@ -19,10 +19,18 @@ namespace Carbonate.Client
         TcpClient client;
         NetworkStream stream;
 
+        /// <value>Return the status of connection</value>
         public bool Connected
         {
             get { return connected; }
         }
+
+        /// <summary>
+        /// Create a client object from indicated user informations
+        /// </summary>
+        /// <param name="username">Username</param>
+        /// <param name="nickname">Nickname</param>
+        /// <param name="password">Hashed password</param>
         public Client(string username, string nickname, string password)
         {
             this.username = username;
@@ -30,6 +38,9 @@ namespace Carbonate.Client
             this.password = password;
         }
 
+        /// <summary>
+        /// Create TcpClient object
+        /// </summary>
         TcpClient CreateClient()
         {
             TcpClient client = new TcpClient();
@@ -37,6 +48,9 @@ namespace Carbonate.Client
             return client;
         }
 
+        /// <summary>
+        /// Dispose TcpClient object
+        /// </summary>
         void DisposeClient()
         {
             if (stream != null)
