@@ -30,19 +30,19 @@ namespace ClientCLI
                     break;
                 
                 case "whisper":                
-                    WriteLine($"\\8r{(string)packet["senderNickname"]}\\8r whispered to you: {message}");
+                    WriteLine($"\\8r\"{(string)packet["senderNickname"]}\\8r\":\\rr {message}");
                     break;
 
                 case "action":
-                    WriteLine($"\\cr* \\rr{(string)packet["senderNickname"]} {message}");
+                    WriteLine($"\\cr* \\rr{(string)packet["senderNickname"]}\\rr {message}");
                     break;
 
                 case "server":
-                    WriteLine($"\\9r{(string)packet["sender"]}\\rr: {message}");
+                    WriteLine($"\\fr(\\9r{(string)packet["sender"]}\\fr)\\rr {message}");
                     break;
 
                 case "broadcast":
-                    WriteLine($"\\arBroadcast:\\9r{(string)packet["sender"]}\\ar> \\rr{message}");
+                    WriteLine($"\\ar[\\9r{(string)packet["sender"]}\\ar]\\rr {message}");
                     break;
             }
         }

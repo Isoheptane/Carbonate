@@ -87,7 +87,7 @@ namespace Carbonate.Server
             Packet packet = GenerateMessagePacket("broadcast", sender, message);
             AsyncBroadcastPacket(packet);
             EnqueueHistory(packet);
-            Info($"\\arBroadcast:\\9r{sender}\\ar> \\rr{message}");
+            Info($"\\ar[\\9r{sender}\\ar]\\rr {message}");
         }
 
         /// <summary>

@@ -81,7 +81,7 @@ namespace Carbonate.Server
                 return;
             }
             WhisperMessage(user, OnlineUsers[arguments[0]], arguments[1]);
-            ServerMessage("server", user, $"\\8rYou whispered to {Users[arguments[0]].nickname}\\rr: {arguments[1]}");
+            ServerMessage("server", user, $"\\8rYou -> \"{Users[arguments[0]].nickname}\\8r\"\\rr: {arguments[1]}");
             Info($"\\8r<{backendUser.nickname}\\8r> -> <{Users[arguments[0]].nickname}\\8r> \\rr{arguments[1]}");
         }
     }

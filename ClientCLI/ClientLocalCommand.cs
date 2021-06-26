@@ -62,7 +62,7 @@ namespace ClientCLI
             }
             if (client.Connected)
             {
-                WriteLine("\\crYou can only change user after disconnected.");
+                WriteLine("\\crYou can only change user when you are disconnected.");
                 return;
             }
             try
