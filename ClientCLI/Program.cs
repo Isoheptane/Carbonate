@@ -15,17 +15,29 @@ namespace ClientCLI
     partial class Program
     {
         static Client client;
+
+        static void ReadConfigureFile(string path)
+        {
+            string username, nickname, password;
+
+            JsonObject config = JsonObject.Parse(File.ReadAllText(path));
+            username    = config["username"];
+            nickname    = config["nickname"];
+            password    = PasswordHash.SHA256x7(config["password"]);
+
+            client = new Client(username, nickname, password);
+            //  Register Events
+            client.events.OnMessageEvent += OnReceiveMessage;
+            client.events.ErrorEvent += OnError;
+            client.events.ServerDisconnectEvent += ServerDisconnect;
+        }
         static void Main(string[] args)
         {
             Console.Clear();
             Initialize();
-            string username, nickname, password;
-            if (File.Exists("client_config.json"))
+            if (File.Exists("default_user.json"))
             {
-                JsonObject config = JsonObject.Parse(File.ReadAllText("client_config.json"));
-                username    = config["username"];
-                nickname    = config["nickname"];
-                password    = PasswordHash.SHA256x7(config["password"]);
+                ReadConfigureFile("default_user.json");
             }
             else
             {
@@ -33,27 +45,23 @@ namespace ClientCLI
                 config["username"]  = "username";
                 config["nickname"]  = "nickname";
                 config["password"]  = "password";
-                File.WriteAllText("client_config.json", config.Serialize());
+                File.WriteAllText("default_user.json", config.Serialize());
                 WriteLine(
-                    "\\crClient configure file doesn't exist!\n" +
-                    "Please check newly created configure file\"client_config.json\".");
+                    "\\crDefalut user profile doesn't exist!\n" +
+                    "Please check the newly created user profile \"defalut_user.json\".");
                 Console.ReadLine();
                 return;
             }
-            client = new Client(username, nickname, password);
-            //  Register Events
-            client.events.OnMessageEvent += OnReceiveMessage;
-            client.events.ErrorEvent += OnError;
-            client.events.ServerDisconnectEvent += ServerDisconnect;
+
             //  Splash
             WriteLine("Carbonate ClientCLI");
-            WriteLine($"User: \\br{nickname}\\rr({username})");
+            WriteLine($"Current user: \\br{client.nickname}\\rr({client.username})");
             while (true)
             {
                 string input = Read("> ");
                 if (input.Length >= 1 && input[0] == '!')
                 {
-                    input = input.Substring(1);
+                    input = input.Substring(1).Trim();
                     Command command = new Command(input);
                     try
                     {
@@ -66,7 +74,7 @@ namespace ClientCLI
                 }
                 else if (input.Length >= 1 && input[0] == '/')
                 {
-                    input = input.Substring(1);
+                    input = input.Substring(1).Trim();
                     Command command = new Command(input);
                     if (client.Connected)
                     {

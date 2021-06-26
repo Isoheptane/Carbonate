@@ -18,41 +18,62 @@ namespace ClientCLI
             switch(command.command.ToLower())
             {
                 case "connect":
-                    {
-                        Connect(command);
-                        break;
-                    }
+                    Connect(command);
+                    break;
+
                 case "register":
-                    {
-                        Register(command);
-                        break;
-                    }
+                    Register(command);
+                    break;
+                    
                 case "ping":
-                    {
-                        Ping(command);
-                        break;
-                    }
+                    Ping(command);
+                    break;
+
                 case "disconnect":
-                    {
-                        Disconnect();
-                        break;
-                    }
+                    Disconnect();
+                    break;
+
                 case "clear":
-                    {
-                        Console.Clear();
-                        Initialize();
-                        break;
-                    }
+                    Console.Clear();
+                    Initialize();
+                    break;
+
+                case "changeuser":
+                    ChangeUser(command);
+                    break;
+
                 case "exit":
-                    {
-                        Environment.Exit(0);
-                        break;
-                    }
+                    Environment.Exit(0);
+                    break;
+
                 default:
-                    {
-                        WriteLine($"\\crInvalid command \"{command.command}\".");
-                        break;
-                    }
+                    WriteLine($"\\crInvalid command \"{command.command}\".");
+                    break;
+            }
+        }
+
+        static void ChangeUser(Command command)
+        {
+            if (command.arguments.Count != 1)
+            {
+                WriteLine("\\crLocal command \"changeuser\" only supports 1 argument:");
+                WriteLine("\\cr  !changeuser <profilePath>");
+                return;
+            }
+            if (client.Connected)
+            {
+                WriteLine("\\crYou can only change user after disconnected.");
+                return;
+            }
+            try
+            {
+                client = null;
+                ReadConfigureFile(command.arguments[0]);
+                WriteLine($"Current user: \\br{client.nickname}\\rr({client.username})");
+            }
+            catch (Exception ex)
+            {
+                WriteLine($"\\crFailed to change user: {ex.Message}");
             }
         }
 
@@ -60,8 +81,8 @@ namespace ClientCLI
         {
             if (command.arguments.Count != 1)
             {
-                WriteLine("\\crLocal command \"connect\" only supports 1 arguments:");
-                WriteLine("\\cr  !command <address>[:port]");
+                WriteLine("\\crLocal command \"connect\" only supports 1 argument:");
+                WriteLine("\\cr  !connect <address>[:port]");
                 return;
             }
             try
@@ -84,7 +105,7 @@ namespace ClientCLI
         {
             if (command.arguments.Count != 1)
             {
-                WriteLine("\\crLocal command \"register\" only supports 1 arguments:");
+                WriteLine("\\crLocal command \"register\" only supports 1 argument:");
                 WriteLine("\\cr  !register <address>[:port]\n");
                 return;
             }
@@ -108,7 +129,7 @@ namespace ClientCLI
         {
             if (command.arguments.Count != 1)
             {
-                WriteLine("\\crLocal command \"register\" only supports 1 arguments:");
+                WriteLine("\\crLocal command \"register\" only supports 1 argument:");
                 WriteLine("\\cr  !ping <address>[:port]");
                 return;
             }

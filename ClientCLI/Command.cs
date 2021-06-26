@@ -14,7 +14,9 @@ namespace ClientCLI
         public Command(string input)
         {
             string[] array = CommandReader.ReadStringArray(input);
-            command = array[0];
+            command = "";
+            if (array.Length >= 1)
+                command = array[0];
             arguments = new List<string>();
             for (int i = 1; i < array.Length; i++)
                 arguments.Add(array[i]);
