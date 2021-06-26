@@ -63,7 +63,7 @@ namespace Carbonate.Server
             return savedCount;
         }
 
-        void AutoSave()
+        void BeginAutoSave()
         {
             autosaveThread = new Thread(() => 
             {

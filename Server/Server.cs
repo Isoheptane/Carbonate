@@ -123,7 +123,7 @@ namespace Carbonate.Server
             Info($"{users.Count} user profiles loaded.");
             Info($"Server started at {CurrentTimeString}.");
 
-            AutoSave();
+            BeginAutoSave();
         }
 
         /// <summary>
