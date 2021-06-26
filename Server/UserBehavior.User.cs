@@ -33,6 +33,25 @@ namespace Carbonate.Server
         }
 
         /// <summary>
+        /// Get user's own information
+        /// </summary>
+        void UserGetInfo(OnlineUser user, CommandPacket command)
+        {
+            User backendUser = Users[user.Username];
+            string message;
+            message = string.Format(
+                $"\n\\er          Nickname:\\rr {backendUser.nickname}" +
+                $"\n\\er          Username:\\rr {backendUser.username}" +
+                $"\n\\er  Permission Level:\\rr {backendUser.permissionLevel}" +
+                $"\n\\er     Register Time:\\rr {backendUser.registerTime.ToString("yyyy/MM/dd HH:mm:ss")}" +
+                $"\n\\er    Last Chat Time:\\rr {backendUser.lastChatTime.ToString("yyyy/MM/dd HH:mm:ss")}"
+            );
+            if (backendUser.muteTime > DateTime.Now)
+                message += $"\n\\er       Muted until:\\rr {backendUser.muteTime.ToString("yyyy/MM/dd HH:mm:ss")}";
+            ServerMessage("server", user, message);
+        }
+
+        /// <summary>
         /// User gets the current online list
         /// </summary>
         void UserGetOnlineList(OnlineUser user, CommandPacket command)

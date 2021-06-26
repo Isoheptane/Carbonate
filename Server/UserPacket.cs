@@ -41,6 +41,10 @@ namespace Carbonate.Server
                     UserGetOnlineList(sender, command);
                     break;
 
+                case "info":            //< User get user information
+                    UserGetInfo(sender, command);
+                    break;
+
                 case "keep-alive":      //< Keep-Alive packet
                     sender.KeepAlive();
                     break;
