@@ -22,51 +22,45 @@ namespace Carbonate.Server
             switch (command.command.ToLower())
             {
                 case "say":             //< User chat
-                    {
-                        UserChat(sender, command);
-                        break;
-                    }
+                    UserChat(sender, command);
+                    break;
+
                 case "me":              //< User action
-                    {
-                        UserAction(sender, command);
-                        break;
-                    }
+                    UserAction(sender, command);
+                    break;
+
                 case "tell":            //< User whisper
-                    {
-                        UserWhisper(sender, command);
-                        break;
-                    }
+                    UserWhisper(sender, command);
+                    break;
+
                 case "changename":      //< User change name
-                    {
-                        UserChangeName(sender, command);
-                        break;
-                    }
+                    UserChangeName(sender, command);
+                    break;
+
                 case "manual":          //< User gets server manual
-                    {
-                        UserGetManual(sender, command);
-                        break;
-                    }
+                    UserGetManual(sender, command);
+                    break;
+
                 case "list":            //< User list all messages
-                    {
-                        UserGetOnlineList(sender, command);
-                        break;
-                    }
+                    UserGetOnlineList(sender, command);
+                    break;
+
                 case "keep-alive":      //< Keep-Alive packet
-                    {
-                        sender.KeepAlive();
-                        break;
-                    }
+                    sender.KeepAlive();
+                    break;
+
                 case "disconnect":      //< User disconnect
-                    {
-                        DisconnectMessage(sender, "server", "User disconnected.");
-                        Disconnect(sender.Username);
-                        break;
-                    }
+                    DisconnectMessage(sender, "server", "User disconnected.");
+                    Disconnect(sender.Username);
+                    break;
+
+                case "broadcast":
+                    AdminBroadcast(sender, command);
+                    break;
+
                 default:                //< Invalid command
-                    {
-                        ServerMessage("server", sender, $"\\crInvalid command \"{command.command}\"");
-                        break;
-                    }
+                    ServerMessage("server", sender, $"\\crInvalid command \"{command.command}\"");
+                    break;
             }
         }
     }

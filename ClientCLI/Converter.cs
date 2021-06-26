@@ -8,13 +8,8 @@ namespace ClientCLI
     {
         public static IPEndPoint GetIPEndPoint(string ep)
         {
-            IPEndPoint endPoint;
             IPAddress address;
-            if (IPEndPoint.TryParse(ep, out endPoint))
-                return endPoint;
-            else if (IPAddress.TryParse(ep, out address))
-                return new IPEndPoint(address, 7235);
-            else if (ep.LastIndexOf(':') == -1)
+            if (ep.LastIndexOf(':') == -1)
             {
                 address = Dns.GetHostEntry(ep).AddressList[0];
                 return new IPEndPoint(address, 7235);
@@ -27,6 +22,14 @@ namespace ClientCLI
                 address = Dns.GetHostEntry(domain).AddressList[0];
                 return new IPEndPoint(address, int.Parse(port));
             }
+        }
+
+        public static string GetHostname(string ep)
+        {
+            if (ep.LastIndexOf(':') == -1)
+                return ep;
+            else
+                return ep.Substring(0, ep.LastIndexOf(':'));
         }
     }
 }
