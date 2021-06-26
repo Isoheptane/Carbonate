@@ -26,32 +26,53 @@ namespace Carbonate.Server
             //  Syntax check
             if (arguments.Count != 1)
             {
-                ServerMessage("server", user, "\\crCommand only supports 1 arguments.");
+                ServerMessage("server", user, langFile["command_arguments_error"].Replace("$COUNT$", "1"));
                 return;
             }
             //  Check if the user is exist
             if (!Users.ContainsKey(arguments[0]))
             {
-                ServerMessage("server", user, $"\\crUser \"{arguments[0]}\" does not exist");
+                ServerMessage("server", user, langFile["command_userNotExist"].Replace("$NAME$", arguments[0]));
                 return;
             }
             //  Check permission level
             User target = Users[arguments[0]];
             if (target.permissionLevel == 1)
             {
-                ServerMessage("server", user, $"\\crUser \"{arguments[0]}\" is already a administrator.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_setadmin_alreadyAdmin"]
+                    .Replace("$NICK$", target.nickname)
+                    .Replace("$NAME$", target.username)
+                );
                 return;
             }
             //  Check permission level
             if (target.permissionLevel == 2)
             {
-                ServerMessage("server", user, $"\\crUser \"{arguments[0]}\"'s permission level is not lower than you.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_higherPermission"]
+                    .Replace("$NICK$", target.nickname)
+                    .Replace("$NAME$", target.username)
+                );
                 return;
             }
             Users[arguments[0]].permissionLevel = 1;
-            Broadcast("server", $"\\brUser {arguments[0]}\\br is now an administrator.");
+            Broadcast(
+                "server", 
+                langFile["command_setadmin_broadcast"]
+                .Replace("$NICK$", target.nickname)
+                .Replace("$NAME$", target.username)
+            );
             if (OnlineUsers.ContainsKey(arguments[0]))
-                ServerMessage("server", OnlineUsers[arguments[0]], "\\brYou are now an administrator.");
+                ServerMessage(
+                    "server", 
+                    OnlineUsers[arguments[0]], 
+                    langFile["command_setadmin_message"]
+                );
         }
 
         void AdminUnsetAdmin(OnlineUser user, CommandPacket command)
@@ -67,32 +88,63 @@ namespace Carbonate.Server
             //  Syntax check
             if (arguments.Count != 1)
             {
-                ServerMessage("server", user, "\\crCommand only supports 1 arguments.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_arguments_error"]
+                    .Replace("$COUNT$", "1")
+                );
                 return;
             }
             //  Check if the user is exist
             if (!Users.ContainsKey(arguments[0]))
             {
-                ServerMessage("server", user, $"\\crUser \"{arguments[0]}\" does not exist");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_userNotExist"]
+                    .Replace("$NAME$", arguments[0])
+                );
                 return;
             }
             //  Check permission level
             User target = Users[arguments[0]];
             if (target.permissionLevel == 0)
             {
-                ServerMessage("server", user, $"\\crUser \"{arguments[0]}\" is not an administrator.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_unsetadmin_notAdmin"]
+                    .Replace("$NICK$", target.nickname)
+                    .Replace("$NAME$", target.username)
+                );
                 return;
             }
             //  Check permission level
             if (target.permissionLevel == 2)
             {
-                ServerMessage("server", user, $"\\crUser \"{arguments[0]}\"'s permission level is not lower than you.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_higherPermission"]
+                    .Replace("$NICK$", target.nickname)
+                    .Replace("$NAME$", target.username)
+                );
                 return;
             }
             Users[arguments[0]].permissionLevel = 0;
-            Broadcast("server", $"\\crUser {arguments[0]}\\cr is no longer an administrator.");
+            Broadcast(
+                "server", 
+                langFile["command_unsetadmin_broadcast"]
+                .Replace("$NICK$", target.nickname)
+                .Replace("$NAME$", target.username)
+            );
             if (OnlineUsers.ContainsKey(arguments[0]))
-                ServerMessage("server", OnlineUsers[arguments[0]], "\\crYou are no longer an administrator.");
+                ServerMessage(
+                    "server", 
+                    OnlineUsers[arguments[0]], 
+                    langFile["command_unsetadmin_message"]
+                );
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Carbonate.Server
     {
         void PermissionDeniedMessage(OnlineUser user)
         {
-            ServerMessage("server", user, "\\crYou don't have the permission to execute the command.");
+            ServerMessage("server", user, langFile["command_permission_denied"]);
         }
     }
 }

@@ -432,7 +432,7 @@ namespace JsonSharp
     }
     public class JsonObject
     {
-        Dictionary<string, JsonValue> pairs;
+        public Dictionary<string, JsonValue> pairs;
         List<string> keys;
         public JsonObject()
         {

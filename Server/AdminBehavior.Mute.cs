@@ -26,20 +26,36 @@ namespace Carbonate.Server
             //  Syntax check
             if (arguments.Count != 2)
             {
-                ServerMessage("server", user, "\\crCommand only supports 2 arguments.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_arguments_error"]
+                    .Replace("$COUNT$", "2")
+                );
                 return;
             }
             //  Check if the user is exist
             if (!Users.ContainsKey(arguments[0]))
             {
-                ServerMessage("server", user, $"\\crUser {arguments[0]}\\cr does not exist.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_userNotExist"]
+                    .Replace("$NAME$", arguments[0])
+                );
                 return;
             }
             //  Check permission level
             User target = Users[arguments[0]];
             if (target.permissionLevel >= backendUser.permissionLevel)
             {
-                ServerMessage("server", user, $"\\cr{target.nickname}\\rr({target.username}\\rr)\\cr's permission level is not lower than you.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_higherPermission"]
+                    .Replace("$NICK$", target.nickname)
+                    .Replace("$NAME$", target.username)
+                );
                 return;
             }
             //  Convert time
@@ -53,9 +69,20 @@ namespace Carbonate.Server
             DateTime untilTime = DateTime.Now.AddTicks(time.Ticks);
 
             Users[arguments[0]].muteTime = untilTime;
-            Broadcast("server", $"\\cr{target.nickname}\\rr({target.username}\\rr)\\cr is muted until {untilTime.ToString("yyyy/MM/dd HH:mm:ss")}.");
+            Broadcast(
+                "server", 
+                langFile["command_mute_broadcast"]
+                .Replace("$NICK$", target.nickname)
+                .Replace("$NAME$", target.username)
+                .Replace("$TIME$", untilTime.ToString("yyyy/MM/dd HH:mm:ss"))
+            );
             if (OnlineUsers.ContainsKey(arguments[0]))
-                ServerMessage("server", OnlineUsers[arguments[0]], $"\\crYou are muted until {untilTime.ToString("yyyy/MM/dd HH:mm:ss")}.");
+                ServerMessage(
+                    "server", 
+                    OnlineUsers[arguments[0]], 
+                    langFile["command_mute_message"]
+                    .Replace("$TIME$", untilTime.ToString("yyyy/MM/dd HH:mm:ss"))
+                );
         }
 
         void AdminUnmute(OnlineUser user, CommandPacket command)
@@ -71,34 +98,65 @@ namespace Carbonate.Server
             //  Syntax check
             if (arguments.Count != 1)
             {
-                ServerMessage("server", user, "\\crCommand only supports 1 arguments.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_arguments_error"]
+                    .Replace("$COUNT$", "1")
+                );
                 return;
             }
             //  Check if the user is exist
             if (!Users.ContainsKey(arguments[0]))
             {
-                ServerMessage("server", user, $"\\crUser {arguments[0]}\\cr does not exist.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_userNotExist"]
+                    .Replace("$NAME$", arguments[0])
+                );
                 return;
             }
             //  Check permission level
             User target = Users[arguments[0]];
             if (target.permissionLevel >= backendUser.permissionLevel)
             {
-                ServerMessage("server", user, $"\\cr{target.nickname}\\rr({target.username}\\rr)\\cr's permission level is not lower than you.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_higherPermission"]
+                    .Replace("$NICK$", target.nickname)
+                    .Replace("$NAME$", target.username)
+                );
                 return;
             }
             //  Check if is unmutable
             if (target.muteTime < DateTime.Now)
             {
-                ServerMessage("server", user, $"\\cr{target.nickname}\\rr({target.username}\\rr)\\cr is not muted now.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_unmute_notMuted"]
+                    .Replace("$NICK$", target.nickname)
+                    .Replace("$NAME$", target.username)
+                );
                 return;
             }
 
             Users[arguments[0]].muteTime = DateTime.MinValue;
 
-            Broadcast("server", $"\\ar{target.nickname}\\rr({target.username}\\rr)\\ar is unmuted.");
+            Broadcast(
+                "server", 
+                langFile["command_unmute_broadcast"]
+                .Replace("$NICK$", target.nickname)
+                .Replace("$NAME$", target.username)
+            );
             if (OnlineUsers.ContainsKey(arguments[0]))
-                ServerMessage("server", OnlineUsers[arguments[0]], $"\\arYou are unmuted now.");
+                ServerMessage(
+                    "server", 
+                    OnlineUsers[arguments[0]], 
+                    langFile["command_unmute_message"]
+                );
         }
     }
 }

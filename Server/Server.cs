@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Collections.Generic;
@@ -10,14 +11,16 @@ namespace Carbonate.Server
 {
     public partial class Server
     {
-        bool serverOn;      //< Server is On
-        string name;        //< Server Name
-        string[] description; //< Server Description
-        int maxOnline;      //< Max Online User Count
-        int port;           //< Server Port
-        string workspace;   //< Workspace Directory
-        bool allowRegister; //< Allow register
-        int autosave;       //< Autosave inverval
+        bool serverOn;          //< Server is On
+        string name;            //< Server Name
+        string[] description;   //< Server Description
+        int maxOnline;          //< Max Online User Count
+        int port;               //< Server Port
+        string workspace;       //< Workspace Directory
+        bool allowRegister;     //< Allow register
+        int autosave;           //< Autosave inverval
+        
+        Dictionary<string, string> langFile;    //< Language File
 
         /// <value>Is the server running</value>
         public bool Running
@@ -94,6 +97,11 @@ namespace Carbonate.Server
             this.allowRegister      = json["allowRegister"];
             this.autosave           = json["autosave"];
             this.historyCapacity    = json["historyCapacity"];
+
+            JsonObject langFile = JsonObject.Parse(File.ReadAllText(json["langFile"]));
+            this.langFile = new Dictionary<string, string>();
+            foreach (var pair in langFile.pairs)
+                this.langFile.Add(pair.Key, pair.Value);
         }
         
         /// <summary>

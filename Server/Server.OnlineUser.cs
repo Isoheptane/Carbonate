@@ -37,7 +37,12 @@ namespace Carbonate.Server
             backendUser.banTime = DateTime.MinValue;
             backendUser.lastLoginTime = DateTime.Now;
             SendHistory(user);
-            Broadcast("server", $"\\er{backendUser.nickname}\\rr({username})\\rr joined the server.");
+            Broadcast(
+                "server", 
+                langFile["user_join"]
+                .Replace("$NICK$", backendUser.nickname)
+                .Replace("$NAME$", backendUser.username)
+            );
             Info($"User \\er{backendUser.nickname}\\rr({username})\\rr from {client.Client.RemoteEndPoint} connected.");
         }
 
@@ -50,7 +55,12 @@ namespace Carbonate.Server
             OnlineUser rec;
             onlineUsers.TryRemove(username, out rec);
             User backendUser = Users[username];
-            Broadcast("server", $"\\er{backendUser.nickname}\\rr({username})\\rr left the server.");
+            Broadcast(
+                "server", 
+                langFile["user_quit"]
+                .Replace("$NICK$", backendUser.nickname)
+                .Replace("$NAME$", backendUser.username)
+            );
             rec.Disconnect();
             Info($"User \\er{backendUser.nickname}\\rr({username})\\rr disconnected.");
         }

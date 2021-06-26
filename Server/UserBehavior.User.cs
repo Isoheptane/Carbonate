@@ -19,16 +19,30 @@ namespace Carbonate.Server
             var arguments = command.arguments;
             if (arguments.Count != 1)
             {
-                ServerMessage("server", user, "\\crCommand only supports 1 arguments.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_arguments_error"]
+                    .Replace("$COUNT$", "1")
+                );
                 return;
             }
             else if (!IsLegalNickname(arguments[0]))
             {
-                ServerMessage("server", user, "\\crNickname contains invalid character.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_changename_invalid"]
+                );
                 return;
             }
             if (!(backendUser.muteTime > DateTime.Now))
-                Broadcast("server", $"{backendUser.nickname}\\rr changed name to {arguments[0]}.");
+                Broadcast(
+                    "server", 
+                    langFile["command_changename_broadcast"]
+                    .Replace("$OLD$", backendUser.nickname)
+                    .Replace("$NEW$", arguments[0])
+                );
             backendUser.nickname = arguments[0];
         }
 
@@ -49,28 +63,38 @@ namespace Carbonate.Server
                     targetUser = Users[arguments[0]];
                 else
                 {
-                    ServerMessage("server", user, $"\\crUser \"{arguments[0]}\" does not exist.");
+                    ServerMessage(
+                        "server", 
+                        user, 
+                        langFile["command_userNotExist"]
+                        .Replace("$NAME$", arguments[0])
+                    );
                     return;
                 }
             }
             else
             {
-                ServerMessage("server", user, "\\crCommand only supports 0 or 1 arguments.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_arguments_error"]
+                    .Replace("$COUNT$", "0 or 1")
+                );
                 return;
             }
     
             string message;
             message = string.Format(
-                $"\n\\er          Nickname:\\rr {targetUser.nickname}" +
-                $"\n\\er          Username:\\rr {targetUser.username}" +
-                $"\n\\er  Permission Level:\\rr {targetUser.permissionLevel}" +
-                $"\n\\er     Register Time:\\rr {targetUser.registerTime.ToString("yyyy/MM/dd HH:mm:ss")}" +
-                $"\n\\er    Last Chat Time:\\rr {targetUser.lastChatTime.ToString("yyyy/MM/dd HH:mm:ss")}"
+                "\n" + langFile["command_info_nickname"].Replace("$VALUE$", targetUser.nickname) +
+                "\n" + langFile["command_info_username"].Replace("$VALUE$", targetUser.username) +
+                "\n" + langFile["command_info_permissionLevel"].Replace("$VALUE$", targetUser.permissionLevel.ToString()) +
+                "\n" + langFile["command_info_registerTime"].Replace("$VALUE$", targetUser.registerTime.ToString("yyyy/MM/dd HH:mm:ss")) +
+                "\n" + langFile["command_info_lastChatTime"].Replace("$VALUE$", targetUser.lastChatTime.ToString("yyyy/MM/dd HH:mm:ss"))
             );
             if (targetUser.muteTime > DateTime.Now) //< Mute information
-                message += $"\n\\er       Muted until:\\rr {targetUser.muteTime.ToString("yyyy/MM/dd HH:mm:ss")}";
+                message += "\n" + langFile["command_info_muteUntil"].Replace("$VALUE$", targetUser.muteTime.ToString("yyyy/MM/dd HH:mm:ss"));
             if (targetUser.banTime > DateTime.Now)  //< Ban information
-                message += $"\n\\er      Banned until:\\rr {targetUser.banTime.ToString("yyyy/MM/dd HH:mm:ss")}";
+                message += "\n" + langFile["command_info_banUntil"].Replace("$VALUE$", targetUser.banTime.ToString("yyyy/MM/dd HH:mm:ss"));
             ServerMessage("server", user, message);
         }
 

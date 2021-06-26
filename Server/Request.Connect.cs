@@ -22,32 +22,33 @@ namespace Carbonate.Server
             if (!Users.ContainsKey(username))
             {   //  User doesn't exist
                 response["message"] =
-                "The user doesn't exist.";
+                langFile["connect_userNotExist"];
             }
             else if (users[username].password != password)
             {   //  Incorrect password
                 response["message"] =
-                "Password incorrect.";
+                langFile["connect_passwordIncorrect"];
             }
             else if (Users[username].banTime > DateTime.Now)
             {   //  Ban user
                 response["message"] =
-                $"You are banned from the server until {Users[username].banTime.ToString("yyyy/MM/dd HH:mm:ss")}";
+                langFile["connect_banned"].Replace("$TIME$", Users[username].banTime.ToString("yyyy/MM/dd HH:mm:ss"));
             }
             else if (onlineUsers.ContainsKey(username))
             {   //  Already login
                 response["message"] =
-                "User already login.";
+                langFile["connect_logedIn"];
             }
             else if (onlineUsers.Count >= MaxOnline)
             {   //  Server full
                 response["message"] =
-                "The server is full.";
+                langFile["connect_serverFull"];
             }
             else
             {
                 response["accepted"] = true;
-                response["message"] = "Welcome";
+                response["message"] = 
+                langFile["connect_welcome"];
             }
             Packet.SendPacket(stream, response);
             if (response["accepted"] == true)

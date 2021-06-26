@@ -43,28 +43,28 @@ namespace Carbonate.Server
             if (!AllowRegister)
             {
                 response["message"] =
-                "The server doesn't allow register.";
+                langFile["register_notAllowed"];
             }
             else if (Users.ContainsKey(username))
             {
                 response["message"] =
-                "The user already exists.";
+                langFile["register_alreadyExist"];
             }
             else if (!IsLegalUsername(username))
             {
                 response["message"] =
-                "Username contains invalid character.";
+                langFile["register_invalidUsername"];
             }
             else if (request.ToJsonObject().Exist("nickname") && !IsLegalNickname(request["nickname"]))
             {
                 response["message"] =
-                "Nickname contains invalid character.";
+                langFile["register_invalidNickname"];
             }
             else
             {
                 response["accepted"] = true;
                 response["message"] =
-                "Registered.";
+                langFile["register_welcome"];
             }
             Packet.SendPacket(stream, response);
             if (response["accepted"] == true)

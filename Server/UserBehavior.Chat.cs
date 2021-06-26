@@ -21,12 +21,21 @@ namespace Carbonate.Server
             var arguments = command.arguments;
             if (arguments.Count != 1)
             {
-                ServerMessage("server", user, "\\crCommand only supports 1 arguments.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_arguments_error"]
+                    .Replace("$COUNT$", "1")
+                );
                 return;
             }
             else if (backendUser.muteTime > DateTime.Now)
             {
-                ServerMessage("server", user, "\\crYou are currently muted.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["user_muted"]
+                );
                 return;
             }
             backendUser.lastChatTime = DateTime.Now;
@@ -45,12 +54,21 @@ namespace Carbonate.Server
             var arguments = command.arguments;
             if (arguments.Count != 1)
             {
-                ServerMessage("server", user, "\\crCommand only supports 1 arguments.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_arguments_error"]
+                    .Replace("$COUNT$", "1")
+                );
                 return;
             }
             else if (backendUser.muteTime > DateTime.Now)
             {
-                ServerMessage("server", user, "\\crYou are currently muted.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["user_muted"]
+                );
                 return;
             }
             backendUser.lastChatTime = DateTime.Now;
@@ -67,17 +85,31 @@ namespace Carbonate.Server
             var arguments = command.arguments;
             if (arguments.Count != 2)
             {
-                ServerMessage("server", user, "\\crCommand only supports 2 arguments.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_arguments_error"]
+                    .Replace("$COUNT$", "2")
+                );
                 return;
             }
             else if (!OnlineUsers.ContainsKey(arguments[0]))
             {
-                ServerMessage("server", user, $"\\crUser \"{arguments[0]}\" is offline or doesn't exist.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_tell_targetOffline"]
+                    .Replace("$NAME$", arguments[0])
+                );
                 return;
             }
             else if (backendUser.muteTime > DateTime.Now)
             {
-                ServerMessage("server", user, "\\crYou are currently muted.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["user_muted"]
+                );
                 return;
             }
             WhisperMessage(user, OnlineUsers[arguments[0]], arguments[1]);

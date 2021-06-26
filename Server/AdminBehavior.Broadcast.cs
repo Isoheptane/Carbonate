@@ -28,12 +28,21 @@ namespace Carbonate.Server
             //  Syntax check
             if (arguments.Count != 1)
             {
-                ServerMessage("server", user, "\\crCommand only supports 1 arguments.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_arguments_error"]
+                    .Replace("$COUNT$", "1")
+                );
                 return;
             }
             else if (backendUser.muteTime > DateTime.Now)
             {
-                ServerMessage("server", user, "\\crYou are currently muted.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["user_muted"]
+                );
                 return;
             }
             backendUser.lastChatTime = DateTime.Now;
