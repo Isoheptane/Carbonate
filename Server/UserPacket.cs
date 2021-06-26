@@ -37,10 +37,6 @@ namespace Carbonate.Server
                     UserChangeName(sender, command);
                     break;
 
-                case "manual":          //< User gets server manual
-                    UserGetManual(sender, command);
-                    break;
-
                 case "list":            //< User list all messages
                     UserGetOnlineList(sender, command);
                     break;
