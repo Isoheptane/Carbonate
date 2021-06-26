@@ -74,6 +74,14 @@ namespace Carbonate.Server
                     AdminUnban(sender, command);
                     break;
 
+                case "setadmin":
+                    AdminSetAdmin(sender, command);
+                    break;
+
+                case "unsetadmin":
+                    AdminUnsetAdmin(sender, command);
+                    break;
+
                 default:                //< Invalid command
                     ServerMessage("server", sender, $"\\crInvalid command \"{command.command}\"");
                     break;
