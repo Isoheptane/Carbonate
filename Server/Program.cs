@@ -19,7 +19,7 @@ namespace Carbonate.Server
         }
         static void Main(string[] args)
         {
-            ScreenIO.Info("Carbonate Hydro Beta v0.1.1");
+            ScreenIO.Info("Carbonate Hydro Beta v0.3.0");
             ScreenIO.Warn("This server-side program is still under development, use it at your own risk.");
             // Create server object
             server = new Server(JsonObject.Parse(File.ReadAllText("server_config.json")));

@@ -23,7 +23,11 @@ namespace ClientCLI
             Console.SetCursorPosition(0, Console.BufferHeight - 5);
         }
 
-        public static void WriteSingleLine(string message)
+        public static void WriteSingleLine(
+            string message, 
+            ConsoleColor foreground, 
+            ConsoleColor background
+        )
         {
             lock (screenLock)
             {
@@ -31,7 +35,8 @@ namespace ClientCLI
                 int interruptY = Console.CursorTop;
 
                 ChangeLine();
-                ScreenIO.Write('\n' + message);
+
+                ScreenIO.RawWrite('\n' + message, foreground, background);
                 Console.SetCursorPosition(interruptX, interruptY);
 
             }
@@ -39,9 +44,17 @@ namespace ClientCLI
 
         public static void WriteLine(string message)
         {
+            var foreground = Console.ForegroundColor;
+            var background = Console.BackgroundColor;
+
             string[] lines = GetLines(message);
             foreach (string line in lines)
-                WriteSingleLine(line);
+            {
+                WriteSingleLine(line, foreground, background);
+            }
+
+            Console.ForegroundColor = foreground;
+            Console.BackgroundColor = background;
         }
 
         public static string Read(string prompt = "")

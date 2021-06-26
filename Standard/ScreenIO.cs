@@ -42,16 +42,15 @@ namespace Carbonate.Standard
         }
 
         /// <summary>
-        /// Write the message to the screen with color formatter.
+        /// Write the message to the screen with color formatter and indicated default foreground / background color.
         /// </summary>
         /// <param name="message">The message to be written</param>
-        public static void Write(string message)
+        /// <param name="foreground">Default foreground color</param>
+        /// <param name="background">Default background color</param>
+        public static void RawWrite(string message, ConsoleColor foreground, ConsoleColor background)
         {
             lock (screenLock)
             {
-                var foreground = Console.ForegroundColor; //< Backup original console color
-                var background = Console.BackgroundColor; //
-
                 for (int currentPtr = 0; currentPtr < message.Length; currentPtr++)
                 {
                     if (message[currentPtr] == '\\')    //< When meets escape
@@ -88,10 +87,22 @@ namespace Carbonate.Standard
                         Console.Write(message[currentPtr]);
                     }
                 }
-
-                Console.ForegroundColor = foreground; //< Restore console color
-                Console.BackgroundColor = background; //<
             }
+        }
+
+        /// <summary>
+        /// Write the message to the screen with color formatter.
+        /// </summary>
+        /// <param name="message">The message to be written</param>
+        public static void Write(string message)
+        {
+            var foreground = Console.ForegroundColor; //< Backup original console color
+            var background = Console.BackgroundColor; //
+
+            RawWrite(message, foreground, background);
+
+            Console.ForegroundColor = foreground; //< Restore console color
+            Console.BackgroundColor = background; //
         }
         
         /// <summary>

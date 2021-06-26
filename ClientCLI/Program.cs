@@ -46,7 +46,7 @@ namespace ClientCLI
             client.events.ErrorEvent += OnError;
             client.events.ServerDisconnectEvent += ServerDisconnect;
             //  Splash
-            WriteLine("Carbonate Client-CLI (Windows)");
+            WriteLine("Carbonate ClientCLI");
             WriteLine($"User: \\br{nickname}\\rr({username})");
             while (true)
             {
