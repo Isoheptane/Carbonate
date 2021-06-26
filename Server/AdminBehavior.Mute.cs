@@ -32,14 +32,14 @@ namespace Carbonate.Server
             //  Check if the user is exist
             if (!Users.ContainsKey(arguments[0]))
             {
-                ServerMessage("server", user, $"\\crUser {arguments[0]}\\cr does not exist");
+                ServerMessage("server", user, $"\\crUser {arguments[0]}\\cr does not exist.");
                 return;
             }
             //  Check permission level
             User target = Users[arguments[0]];
             if (target.permissionLevel >= backendUser.permissionLevel)
             {
-                ServerMessage("server", user, $"\\crUser {arguments[0]}\\cr's permission level is not lower than you.");
+                ServerMessage("server", user, $"\\cr{target.nickname}\\rr({target.username}\\rr)\\cr's permission level is not lower than you.");
                 return;
             }
             //  Convert time
@@ -53,7 +53,7 @@ namespace Carbonate.Server
             DateTime untilTime = DateTime.Now.AddTicks(time.Ticks);
 
             Users[arguments[0]].muteTime = untilTime;
-            Broadcast("server", $"\\crUser {arguments[0]}\\cr is muted until {untilTime.ToString("yyyy/MM/dd HH:mm:ss")}.");
+            Broadcast("server", $"\\cr{target.nickname}\\rr({target.username}\\rr)\\cr is muted until {untilTime.ToString("yyyy/MM/dd HH:mm:ss")}.");
             if (OnlineUsers.ContainsKey(arguments[0]))
                 ServerMessage("server", OnlineUsers[arguments[0]], $"\\crYou are muted until {untilTime.ToString("yyyy/MM/dd HH:mm:ss")}.");
         }
@@ -77,26 +77,26 @@ namespace Carbonate.Server
             //  Check if the user is exist
             if (!Users.ContainsKey(arguments[0]))
             {
-                ServerMessage("server", user, $"\\crUser {arguments[0]}\\cr does not exist");
+                ServerMessage("server", user, $"\\crUser {arguments[0]}\\cr does not exist.");
                 return;
             }
             //  Check permission level
             User target = Users[arguments[0]];
             if (target.permissionLevel >= backendUser.permissionLevel)
             {
-                ServerMessage("server", user, $"\\crUser {arguments[0]}\\cr 's permission level is not lower than you.");
+                ServerMessage("server", user, $"\\cr{target.nickname}\\rr({target.username}\\rr)\\cr's permission level is not lower than you.");
                 return;
             }
             //  Check if is unmutable
             if (target.muteTime < DateTime.Now)
             {
-                ServerMessage("server", user, $"\\crUser {arguments[0]}\\cr is not muted now.");
+                ServerMessage("server", user, $"\\cr{target.nickname}\\rr({target.username}\\rr)\\cr is not muted now.");
                 return;
             }
 
             Users[arguments[0]].muteTime = DateTime.MinValue;
 
-            Broadcast("server", $"\\arUser {arguments[0]}\\ar is unmuted.");
+            Broadcast("server", $"\\ar{target.nickname}\\rr({target.username}\\rr)\\ar is unmuted.");
             if (OnlineUsers.ContainsKey(arguments[0]))
                 ServerMessage("server", OnlineUsers[arguments[0]], $"\\arYou are unmuted now.");
         }

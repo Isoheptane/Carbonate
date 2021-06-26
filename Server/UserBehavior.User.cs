@@ -28,7 +28,7 @@ namespace Carbonate.Server
                 return;
             }
             if (!(backendUser.muteTime > DateTime.Now))
-                Broadcast("server", $"{backendUser.nickname}\\rr changed name to {arguments[0]}");
+                Broadcast("server", $"{backendUser.nickname}\\rr changed name to {arguments[0]}.");
             backendUser.nickname = arguments[0];
         }
 
@@ -37,17 +37,40 @@ namespace Carbonate.Server
         /// </summary>
         void UserGetInfo(OnlineUser user, CommandPacket command)
         {
-            User backendUser = Users[user.Username];
+            User targetUser;
+            var arguments = command.arguments;
+            if (arguments.Count == 0)       //< Query for sender's information
+            {
+                targetUser = Users[user.Username];
+            }
+            else if (arguments.Count == 1)  //< Query for other's information 
+            {
+                if (Users.ContainsKey(arguments[0]))
+                    targetUser = Users[arguments[0]];
+                else
+                {
+                    ServerMessage("server", user, $"\\crUser \"{arguments[0]}\" does not exist.");
+                    return;
+                }
+            }
+            else
+            {
+                ServerMessage("server", user, "\\crCommand only supports 0 or 1 arguments.");
+                return;
+            }
+    
             string message;
             message = string.Format(
-                $"\n\\er          Nickname:\\rr {backendUser.nickname}" +
-                $"\n\\er          Username:\\rr {backendUser.username}" +
-                $"\n\\er  Permission Level:\\rr {backendUser.permissionLevel}" +
-                $"\n\\er     Register Time:\\rr {backendUser.registerTime.ToString("yyyy/MM/dd HH:mm:ss")}" +
-                $"\n\\er    Last Chat Time:\\rr {backendUser.lastChatTime.ToString("yyyy/MM/dd HH:mm:ss")}"
+                $"\n\\er          Nickname:\\rr {targetUser.nickname}" +
+                $"\n\\er          Username:\\rr {targetUser.username}" +
+                $"\n\\er  Permission Level:\\rr {targetUser.permissionLevel}" +
+                $"\n\\er     Register Time:\\rr {targetUser.registerTime.ToString("yyyy/MM/dd HH:mm:ss")}" +
+                $"\n\\er    Last Chat Time:\\rr {targetUser.lastChatTime.ToString("yyyy/MM/dd HH:mm:ss")}"
             );
-            if (backendUser.muteTime > DateTime.Now)
-                message += $"\n\\er       Muted until:\\rr {backendUser.muteTime.ToString("yyyy/MM/dd HH:mm:ss")}";
+            if (targetUser.muteTime > DateTime.Now) //< Mute information
+                message += $"\n\\er       Muted until:\\rr {targetUser.muteTime.ToString("yyyy/MM/dd HH:mm:ss")}";
+            if (targetUser.banTime > DateTime.Now)  //< Ban information
+                message += $"\n\\er      Banned until:\\rr {targetUser.banTime.ToString("yyyy/MM/dd HH:mm:ss")}";
             ServerMessage("server", user, message);
         }
 
