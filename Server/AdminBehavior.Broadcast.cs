@@ -19,11 +19,13 @@ namespace Carbonate.Server
         {
             User backendUser = Users[user.Username];
             var arguments = command.arguments;
-            if (!backendUser.isAdmin)
+            //  Permission check
+            if (backendUser.permissionLevel < 1)
             {
                 PermissionDeniedMessage(user);
                 return;
             }
+            //  Syntax check
             if (arguments.Count != 1)
             {
                 ServerMessage("server", user, "\\crCommand only supports 1 arguments.");
@@ -37,5 +39,6 @@ namespace Carbonate.Server
             backendUser.lastChatTime = DateTime.Now;
             Broadcast(backendUser.nickname, arguments[0]);
         }
+
     }
 }

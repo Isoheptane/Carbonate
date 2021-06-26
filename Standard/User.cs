@@ -9,8 +9,7 @@ namespace Carbonate.Standard
     {
         public string username;
         public string nickname;
-        public bool isAdmin;
-        public bool isSuperAdmin;
+        public int permissionLevel;
         public DateTime registerTime;
         public DateTime lastLoginTime;
         public DateTime lastChatTime;
@@ -24,8 +23,7 @@ namespace Carbonate.Standard
         {
             username        = "undefined";
             nickname        = "undefined";
-            isAdmin         = false;
-            isSuperAdmin    = false;
+            permissionLevel = 0;
             registerTime    = DateTime.MinValue;
             lastLoginTime   = DateTime.MinValue;
             lastChatTime    = DateTime.MinValue;
@@ -41,8 +39,7 @@ namespace Carbonate.Standard
         {
             username        = user.username;
             nickname        = user.nickname;
-            isAdmin         = user.isAdmin;
-            isSuperAdmin    = user.isSuperAdmin;
+            permissionLevel = user.permissionLevel;
             registerTime    = user.registerTime;
             lastLoginTime   = user.lastLoginTime;
             lastChatTime    = user.lastChatTime;
@@ -57,15 +54,14 @@ namespace Carbonate.Standard
         public static User CreateFromJson(JsonObject json)
         {
             User user = new User();
-            user.username       = json["username"];
-            user.nickname       = json["nickname"];
-            user.isAdmin        = json["isAdmin"];
-            user.isSuperAdmin   = json["isSuperAdmin"];
-            user.registerTime   = json["registerTime"];
-            user.lastLoginTime  = json["lastLoginTime"];
-            user.lastChatTime   = json["lastChatTime"];
-            user.muteTime       = json["muteTime"];
-            user.banTime        = json["banTime"];
+            user.username           = json["username"];
+            user.nickname           = json["nickname"];
+            user.permissionLevel    = json["permissionLevel"];
+            user.registerTime       = json["registerTime"];
+            user.lastLoginTime      = json["lastLoginTime"];
+            user.lastChatTime       = json["lastChatTime"];
+            user.muteTime           = json["muteTime"];
+            user.banTime            = json["banTime"];
             return user;
         }
 
@@ -75,15 +71,14 @@ namespace Carbonate.Standard
         public JsonObject ToJsonObject()
         {
             JsonObject json = new JsonObject();
-            json.Add("username"     , username);
-            json.Add("nickname"     , nickname);
-            json.Add("isAdmin"      , isAdmin);
-            json.Add("isSuperAdmin" , isSuperAdmin);
-            json.Add("registerTime" , registerTime);
-            json.Add("lastLoginTime", lastLoginTime);
-            json.Add("lastChatTime" , lastChatTime);
-            json.Add("muteTime"     , muteTime);
-            json.Add("banTime"      , banTime);
+            json.Add("username"         , username);
+            json.Add("nickname"         , nickname);
+            json.Add("permissionLevel"  , permissionLevel);
+            json.Add("registerTime"     , registerTime);
+            json.Add("lastLoginTime"    , lastLoginTime);
+            json.Add("lastChatTime"     , lastChatTime);
+            json.Add("muteTime"         , muteTime);
+            json.Add("banTime"          , banTime);
             return json;
         }
     }

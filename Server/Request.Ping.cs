@@ -28,11 +28,10 @@ namespace Carbonate.Server
                 response["existUser"] = true;
                 var userObject = new JsonSharp.JsonObject();
                 var user = users[request["username"]];
-                userObject["nickname"]      = user.nickname;
-                userObject["isAdmin"]       = user.isAdmin;
-                userObject["isSuperAdmin"]  = user.isSuperAdmin;
-                userObject["registerTime"]  = user.registerTime;
-                response["userInfo"] = userObject;
+                userObject["nickname"]              = user.nickname;
+                userObject["permissionLevel"]       = user.permissionLevel;
+                userObject["registerTime"]          = user.registerTime;
+                response["userInfo"]                = userObject;
             }
             else
             {

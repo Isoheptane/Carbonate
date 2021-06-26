@@ -57,6 +57,22 @@ namespace Carbonate.Server
                 case "broadcast":
                     AdminBroadcast(sender, command);
                     break;
+                
+                case "mute":
+                    AdminMute(sender, command);
+                    break;
+                
+                case "unmute":
+                    AdminUnmute(sender, command);
+                    break;
+
+                case "ban":
+                    AdminBan(sender, command);
+                    break;
+                
+                case "unban":
+                    AdminUnban(sender, command);
+                    break;
 
                 default:                //< Invalid command
                     ServerMessage("server", sender, $"\\crInvalid command \"{command.command}\"");
