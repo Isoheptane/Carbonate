@@ -45,7 +45,8 @@
     "command_tell_targetOffline": "\\cr用户 \"$NAME$\" 离线或不存在。",
 
     "command_changename_invalid"    : "\\cr昵称包含无效的字符。",
-    "command_changename_broadcast"  : "$OLD$\\rr 将名字修改为了 $NEW$.",
+    "command_changename_broadcast"  : "$OLD$\\rr 将名字修改为了 $NEW$\\rr。",
+    "command_changename_force"      : "$OLD$\\rr($NAME$\\rr) 的名字被修改为了 $NEW$\\rr。",
     
     "command_info_nickname"         : "\\er              昵称:\\rr $VALUE$",
     "command_info_username"         : "\\er            用户名:\\rr $VALUE$",

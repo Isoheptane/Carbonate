@@ -17,17 +17,23 @@ namespace Carbonate.Server
         {
             User backendUser = Users[user.Username];
             var arguments = command.arguments;
-            if (arguments.Count != 1)
+            if (arguments.Count != 1 && arguments.Count != 2)
             {
                 ServerMessage(
                     "server", 
                     user, 
                     langFile["command_arguments_error"]
-                    .Replace("$COUNT$", "1")
+                    .Replace("$COUNT$", "1, 2")
                 );
                 return;
             }
-            else if (!IsLegalNickname(arguments[0]))
+            //  Admin command detection
+            if (arguments.Count == 2)
+            {
+                AdminChangeName(user, command);
+                return;
+            }
+            if (!IsLegalNickname(arguments[0]))
             {
                 ServerMessage(
                     "server", 
@@ -78,7 +84,7 @@ namespace Carbonate.Server
                     "server", 
                     user, 
                     langFile["command_arguments_error"]
-                    .Replace("$COUNT$", "0 or 1")
+                    .Replace("$COUNT$", "0, 1")
                 );
                 return;
             }

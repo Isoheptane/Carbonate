@@ -72,7 +72,7 @@ namespace Carbonate.Server
             
             DateTime untilTime = DateTime.Now.AddTicks(time.Ticks);
 
-            Users[arguments[0]].banTime = untilTime;
+            target.banTime = untilTime;
             Info(
                 $"{backendUser.nickname}\\rr({backendUser.username}\\rr)" +
                 $" banned {target.nickname}\\rr({target.username}\\rr)."
@@ -154,7 +154,7 @@ namespace Carbonate.Server
                 return;
             }
 
-            Users[arguments[0]].banTime = DateTime.MinValue;
+            target.banTime = DateTime.MinValue;
             Info(
                 $"{backendUser.nickname}\\rr({backendUser.username}\\rr)" +
                 $" unbanned {target.nickname}\\rr({target.username}\\rr)."

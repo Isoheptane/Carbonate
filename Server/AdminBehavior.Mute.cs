@@ -72,7 +72,7 @@ namespace Carbonate.Server
             //  Calculate time
             DateTime untilTime = DateTime.Now.AddTicks(time.Ticks);
 
-            Users[arguments[0]].muteTime = untilTime;
+            target.muteTime = untilTime;
             Info(
                 $"{backendUser.nickname}\\rr({backendUser.username}\\rr)" +
                 $" muted {target.nickname}\\rr({target.username}\\rr)."
@@ -151,7 +151,7 @@ namespace Carbonate.Server
                 return;
             }
 
-            Users[arguments[0]].muteTime = DateTime.MinValue;
+            target.muteTime = DateTime.MinValue;
             Info(
                 $"{backendUser.nickname}\\rr({backendUser.username}\\rr)" +
                 $" unmuted {target.nickname}\\rr({target.username}\\rr)."

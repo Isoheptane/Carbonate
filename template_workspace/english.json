@@ -44,7 +44,8 @@
     "command_tell_targetOffline": "\\crUser \"$NAME$\" is offline or doesn't exist.",
 
     "command_changename_invalid"    : "\\crNickname contains invalid character.",
-    "command_changename_broadcast"  : "$OLD$\\rr changed name to $NEW$.",
+    "command_changename_broadcast"  : "$OLD$\\rr changed name to $NEW$\\rr.",
+    "command_changename_force"      : "$OLD$\\rr($NAME$\\rr)'s name is changed to $NEW$\\rr.",
     
     "command_info_nickname"         : "\\er          Nickname:\\rr $VALUE$",
     "command_info_username"         : "\\er          Username:\\rr $VALUE$",

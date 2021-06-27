@@ -130,7 +130,7 @@ namespace Carbonate.Server
                 return;
             }
             //  Check permission level
-            if (target.permissionLevel == 2)
+            if (target.permissionLevel >= backendUser.permissionLevel)
             {
                 ServerMessage(
                     "server", 
