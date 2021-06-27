@@ -11,7 +11,7 @@ A very simple real-time chatting protocol and its implement.
 
 #### Configure file ####
 
-​	ClientCLI will check the file `client_config.json`. If it is not exist, program will create one.
+​	ClientCLI will check the file `default_user.json`. If it is not exist, program will create one.
 
 ​	It should be like this:
 
@@ -26,31 +26,6 @@ A very simple real-time chatting protocol and its implement.
 ​	The password hash is calculated using SHA256 Hash Algorithm.
 
 ​	JSON comments are not supported.
-
-#### Commands ####
-
-​	Commands starting with `!` are offline commands, and commands starting with `/` are online commands.
-
-| Offline Command Usage | Function |
-| ------: | -------- |
-|`!register <Address>[:Port]` | Ping the indicated server. Returns the server information.|
-|`!connect <Address>[:Port]` | Connect to the indicated server using the loaded configure file.|
-|`!register <Address>[:Port]` | Register at the indicated server using the loaded configure file.|
-|`!disconnect` | Force disconnect from the connected remote server.|
-|`!clear` | Clear the screen.|
-|`!exit` | Exit the program.|
-
-
-
-| Online Command Usage | Function |
-| ------: | -------- |
-|`/say <Message>` | Say something.|
-|`/me <Message>`  | Send a action message.|
-|`/tell <User> <Message>` | Send a whisper message to the indicated user.|
-|`/changename <Nickname>` | Change the nickname of the user.|
-|`/list` | List all online users.|
-|`/keep-alive` | Send a client keep-alive packet. Automatically sent by every 2000ms.|
-|`/disconnect` | Send a disconnect message to the server. Then the server will send a disconnect message to the client.|
 
 ### Expandability ###
 
