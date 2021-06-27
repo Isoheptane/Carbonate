@@ -1,0 +1,55 @@
+{
+    "connect_userNotExist": "The user doesn't exist.",
+    "connect_passwordIncorrect": "Password incorrect.",
+    "connect_banned": "You are banned from the server until $TIME$.",
+    "connect_logedIn": "User already loged in.",
+    "connect_serverFull": "The server is full.",
+    "connect_welcome": "Welcome",
+
+    "register_notAllowed": "The server doesn't allow register.",
+    "register_alreadyExist": "The user already exists.",
+    "register_invalidUsername": "Username contains invalid character.",
+    "register_invalidNickname": "Nickname contains invalid character.",
+    "register_welcome": "Registered",
+
+    "user_join": "\\er$NICK$\\rr($NAME$\\rr) joined the server.",
+    "user_quit": "\\er$NICK$\\rr($NAME$\\rr) left the server.",
+
+    "user_muted": "\\crYou are currently muted.",
+
+    "command_permission_denied"     : "\\crYou don't have the permission to execute the command.",
+    "command_arguments_error"       : "\\crCommand only supports $COUNT$ arguments.",
+    "command_userNotExist"          : "\\crUser \"$NAME$\" does not exist.",
+    "command_higherPermission"      : "\\cr$NICK$\\rr($NAME$\\rr)\\cr's permission level is not lower than you.",
+    
+    "command_setadmin_alreadyAdmin" : "\\cr$NICK$\\rr($NAME$\\rr)\\cr is already an administrator.",
+    "command_setadmin_broadcast"    : "\\br$NICK$\\rr($NAME$\\rr)\\br is now an administrator.",
+    "command_setadmin_message"      : "\\brYou are now an administrator.",
+    "command_unsetadmin_notAdmin"   : "\\cr$NICK$\\rr($NAME$\\rr)\\cr is not an administrator.",
+    "command_unsetadmin_broadcast"  : "\\br$NICK$\\rr($NAME$\\rr)\\br is no longer an administrator.",
+    "command_unsetadmin_message"    : "\\crYou are no longer an administrator.",
+
+    "command_ban_broadcast"     : "\\cr$NICK$\\rr($NAME$\\rr)\\cr is banned until $TIME$.",
+    "command_ban_message"       : "\\crYou are banned until $TIME$.",
+    "command_unban_notBanned"   : "\\cr$NICK$\\rr($NAME$\\rr)\\cr is not banned now.",
+    "command_unban_broadcast"   : "\\ar$NICK$\\rr($NAME$\\rr)\\ar is unbanned.",
+
+    "command_mute_broadcast"    : "\\cr$NICK$\\rr($NAME$\\rr)\\cr is muted until $TIME$.",
+    "command_mute_message"      : "\\crYou are muted until $TIME$.",
+    "command_unmute_notMuted"   : "\\cr$NICK$\\rr($NAME$\\rr)\\cr is not muted now.",
+    "command_unmute_broadcast"  : "\\ar$NICK$\\rr($NAME$\\rr)\\ar is unmuted.",
+    "command_unmute_message"    : "\\arYou are unmuted now.",
+
+    "command_tell_targetOffline": "\\crUser \"$NAME$\" is offline or doesn't exist.",
+
+    "command_changename_invalid"    : "\\crNickname contains invalid character.",
+    "command_changename_broadcast"  : "$OLD$\\rr changed name to $NEW$.",
+    
+    "command_info_nickname"         : "\\er          Nickname:\\rr $VALUE$",
+    "command_info_username"         : "\\er          Username:\\rr $VALUE$",
+    "command_info_permissionLevel"  : "\\er  Permission Level:\\rr $VALUE$",
+    "command_info_registerTime"     : "\\er     Register Time:\\rr $VALUE$",
+    "command_info_lastChatTime"     : "\\er    Last Chat Time:\\rr $VALUE$",
+    "command_info_muteUntil"        : "\\er       Muted until:\\rr $VALUE$",
+    "command_info_banUntil"         : "\\er      Banned until:\\rr $VALUE$"
+}

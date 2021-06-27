@@ -1,0 +1,56 @@
+{
+    "connect_userNotExist"      : "用户不存在。",
+    "connect_passwordIncorrect" : "密码错误。",
+    "connect_banned"            : "您已被服务器封禁到 $TIME$。",
+    "connect_logedIn"           : "用户已登入服务器",
+    "connect_serverFull"        : "服务器已满。",
+    "connect_welcome"           : "欢迎回来",
+
+    "register_notAllowed"       : "服务器不允许用户注册。",
+    "register_alreadyExist"     : "用户已存在。",
+    "register_invalidUsername"  : "用户名包含无效的字符。",
+    "register_invalidNickname"  : "昵称包含无效的字符。",
+    "register_welcome"          : "注册成功",
+
+    "user_join": "\\er$NICK$\\rr($NAME$\\rr) 加入了服务器",
+    "user_quit": "\\er$NICK$\\rr($NAME$\\rr) 离开了服务器",
+    "user_quit_message": "用户断开连接",
+
+    "user_muted": "\\cr你正在被禁言中。",
+
+    "command_permission_denied" : "\\cr您没有权限执行该指令。",
+    "command_arguments_error"   : "\\cr该指令只支持 $COUNT$ 个参数。",
+    "command_userNotExist"      : "\\cr用户 \"$NAME$\" 不存在。",
+    "command_higherPermission"  : "\\cr$NICK$\\rr($NAME$\\rr)\\cr 的权限等级不小于您的权限等级。",
+    
+    "command_setadmin_alreadyAdmin" : "\\cr$NICK$\\rr($NAME$\\rr)\\cr 已经是管理员了。",
+    "command_setadmin_broadcast"    : "\\br$NICK$\\rr($NAME$\\rr)\\br 成为了管理员。",
+    "command_setadmin_message"      : "\\br你现在成为了管理员！",
+    "command_unsetadmin_notAdmin"   : "\\cr$NICK$\\rr($NAME$\\rr)\\cr 不是管理员。",
+    "command_unsetadmin_broadcast"  : "\\br$NICK$\\rr($NAME$\\rr)\\br 不再是管理员了。",
+    "command_unsetadmin_message"    : "\\cr你将不再是管理员了。",
+
+    "command_ban_broadcast"     : "\\cr$NICK$\\rr($NAME$\\rr)\\cr 被封禁到了 $TIME$。",
+    "command_ban_message"       : "\\cr您已被服务器封禁到 $TIME$。",
+    "command_unban_notBanned"   : "\\cr$NICK$\\rr($NAME$\\rr)\\cr 没有被封禁。",
+    "command_unban_broadcast"   : "\\ar$NICK$\\rr($NAME$\\rr)\\ar 被解除封禁了。",
+
+    "command_mute_broadcast"    : "\\cr$NICK$\\rr($NAME$\\rr)\\cr 被禁言到了 $TIME$。",
+    "command_mute_message"      : "\\cr你被禁言到了 $TIME$。",
+    "command_unmute_notMuted"   : "\\cr$NICK$\\rr($NAME$\\rr)\\cr 没有被禁言。",
+    "command_unmute_broadcast"  : "\\ar$NICK$\\rr($NAME$\\rr)\\ar 被解除禁言了。",
+    "command_unmute_message"    : "\\ar你被解除禁言了。",
+
+    "command_tell_targetOffline": "\\cr用户 \"$NAME$\" 离线或不存在。",
+
+    "command_changename_invalid"    : "\\cr昵称包含无效的字符。",
+    "command_changename_broadcast"  : "$OLD$\\rr 将名字修改为了 $NEW$.",
+    
+    "command_info_nickname"         : "\\er              昵称:\\rr $VALUE$",
+    "command_info_username"         : "\\er            用户名:\\rr $VALUE$",
+    "command_info_permissionLevel"  : "\\er          权限等级:\\rr $VALUE$",
+    "command_info_registerTime"     : "\\er          注册时间:\\rr $VALUE$",
+    "command_info_lastChatTime"     : "\\er      最后发言时间:\\rr $VALUE$",
+    "command_info_muteUntil"        : "\\er          被禁言到:\\rr $VALUE$",
+    "command_info_banUntil"         : "\\er          被封禁到:\\rr $VALUE$"
+}

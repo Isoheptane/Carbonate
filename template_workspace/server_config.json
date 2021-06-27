@@ -9,5 +9,6 @@
     "workspace": "workspace",
     "allowRegister": true,
     "autosave": 600,
-    "historyCapacity": 50
+    "historyCapacity": 50,
+    "langFile": "workspace/english.json"
 }
