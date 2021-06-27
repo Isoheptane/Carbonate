@@ -21,12 +21,13 @@
     "command_arguments_error"       : "\\crCommand only supports $COUNT$ arguments.",
     "command_userNotExist"          : "\\crUser \"$NAME$\" does not exist.",
     "command_higherPermission"      : "\\cr$NICK$\\rr($NAME$\\rr)\\cr's permission level is not lower than you.",
+    "command_invalidTimeFormat"     : "\\crInvalid time format.",
     
     "command_setadmin_alreadyAdmin" : "\\cr$NICK$\\rr($NAME$\\rr)\\cr is already an administrator.",
     "command_setadmin_broadcast"    : "\\br$NICK$\\rr($NAME$\\rr)\\br is now an administrator.",
     "command_setadmin_message"      : "\\brYou are now an administrator.",
     "command_unsetadmin_notAdmin"   : "\\cr$NICK$\\rr($NAME$\\rr)\\cr is not an administrator.",
-    "command_unsetadmin_broadcast"  : "\\br$NICK$\\rr($NAME$\\rr)\\br is no longer an administrator.",
+    "command_unsetadmin_broadcast"  : "\\cr$NICK$\\rr($NAME$\\rr)\\cr is no longer an administrator.",
     "command_unsetadmin_message"    : "\\crYou are no longer an administrator.",
 
     "command_ban_broadcast"     : "\\cr$NICK$\\rr($NAME$\\rr)\\cr is banned until $TIME$.",

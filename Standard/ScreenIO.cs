@@ -159,22 +159,22 @@ namespace Carbonate.Standard
         /// <summary>
         /// Write a info message.
         /// </summary>
-        public static void Info(string message) => Write($"\\rr[{CurrentTimeString} INFO]\\rr {message}\n");
+        public static void Info(string message) => Write($"\\rr[{CurrentTimeString} INFO]\\rr {message}\\rr\n");
 
         /// <summary>
         /// Write a warning message.
         /// </summary>
-        public static void Warn(string message) => Write($"\\er[{CurrentTimeString} WARN]\\rr {message}\n");
+        public static void Warn(string message) => Write($"\\er[{CurrentTimeString} WARN]\\rr {message}\\rr\n");
 
         /// <summary>
         /// Write a error message.
         /// </summary>
-        public static void Error(string message) => Write($"\\cr[{CurrentTimeString} ERROR]\\rr {message}\n");
+        public static void Error(string message) => Write($"\\cr[{CurrentTimeString} ERROR]\\rr {message}\\rr\n");
 
         /// <summary>
         /// Write a debug message.
         /// </summary>
-        public static void Debug(string message) => Write($"\\rr[{CurrentTimeString} DEBUG]\\rr {message}\n");
+        public static void Debug(string message) => Write($"\\rr[{CurrentTimeString} DEBUG]\\rr {message}\\rr\n");
 
         /// <summary>
         /// Unescape message.

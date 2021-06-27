@@ -62,13 +62,21 @@ namespace Carbonate.Server
             DateTime time;
             if (!TypeConvert.TryGetTime(arguments[1], out time))
             {
-                ServerMessage("server", user, $"Time format is invalid.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_invalidTimeFormat"]
+                );
                 return;
             }
             //  Calculate time
             DateTime untilTime = DateTime.Now.AddTicks(time.Ticks);
 
             Users[arguments[0]].muteTime = untilTime;
+            Info(
+                $"{backendUser.nickname}\\rr({backendUser.username}\\rr)" +
+                $" muted {target.nickname}\\rr({target.username}\\rr)."
+            );
             Broadcast(
                 "server", 
                 langFile["command_mute_broadcast"]
@@ -144,7 +152,10 @@ namespace Carbonate.Server
             }
 
             Users[arguments[0]].muteTime = DateTime.MinValue;
-
+            Info(
+                $"{backendUser.nickname}\\rr({backendUser.username}\\rr)" +
+                $" unmuted {target.nickname}\\rr({target.username}\\rr)."
+            );
             Broadcast(
                 "server", 
                 langFile["command_unmute_broadcast"]

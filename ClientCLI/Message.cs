@@ -38,7 +38,7 @@ namespace ClientCLI
                     break;
 
                 case "server":
-                    WriteLine($"\\fr(\\9r{(string)packet["sender"]}\\fr)\\rr {message}");
+                    WriteLine($"\\fr[\\9r{(string)packet["sender"]}\\fr]\\rr {message}");
                     break;
 
                 case "broadcast":

@@ -11,7 +11,7 @@ namespace Carbonate.Server
     public partial class Server
     {   
         /// <summary>
-        /// Admin ban user
+        /// Set admin
         /// </summary>
         void AdminSetAdmin(OnlineUser user, CommandPacket command)
         {
@@ -60,7 +60,13 @@ namespace Carbonate.Server
                 );
                 return;
             }
+
             Users[arguments[0]].permissionLevel = 1;
+            Info(
+                $"{backendUser.nickname}\\rr({backendUser.username}\\rr)" +
+                $" appointed {target.nickname}\\rr({target.username}\\rr)" +
+                " as server administrator."
+            );
             Broadcast(
                 "server", 
                 langFile["command_setadmin_broadcast"]
@@ -75,6 +81,9 @@ namespace Carbonate.Server
                 );
         }
 
+        /// <summary>
+        /// Unset admin
+        /// </summary>
         void AdminUnsetAdmin(OnlineUser user, CommandPacket command)
         {
             User backendUser = Users[user.Username];
@@ -132,7 +141,13 @@ namespace Carbonate.Server
                 );
                 return;
             }
+
             Users[arguments[0]].permissionLevel = 0;
+            Info(
+                $"{backendUser.nickname}\\rr({backendUser.username}\\rr)" +
+                $" dismissed {target.nickname}\\rr({target.username}\\rr)" +
+                " from the server administrator position."
+            );
             Broadcast(
                 "server", 
                 langFile["command_unsetadmin_broadcast"]

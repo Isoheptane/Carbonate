@@ -22,12 +22,13 @@
     "command_arguments_error"   : "\\cr该指令只支持 $COUNT$ 个参数。",
     "command_userNotExist"      : "\\cr用户 \"$NAME$\" 不存在。",
     "command_higherPermission"  : "\\cr$NICK$\\rr($NAME$\\rr)\\cr 的权限等级不小于您的权限等级。",
+    "command_invalidTimeFormat" : "\\cr无效的时间格式。",
     
     "command_setadmin_alreadyAdmin" : "\\cr$NICK$\\rr($NAME$\\rr)\\cr 已经是管理员了。",
     "command_setadmin_broadcast"    : "\\br$NICK$\\rr($NAME$\\rr)\\br 成为了管理员。",
     "command_setadmin_message"      : "\\br你现在成为了管理员！",
     "command_unsetadmin_notAdmin"   : "\\cr$NICK$\\rr($NAME$\\rr)\\cr 不是管理员。",
-    "command_unsetadmin_broadcast"  : "\\br$NICK$\\rr($NAME$\\rr)\\br 不再是管理员了。",
+    "command_unsetadmin_broadcast"  : "\\cr$NICK$\\rr($NAME$\\rr)\\cr 不再是管理员了。",
     "command_unsetadmin_message"    : "\\cr你将不再是管理员了。",
 
     "command_ban_broadcast"     : "\\cr$NICK$\\rr($NAME$\\rr)\\cr 被封禁到了 $TIME$。",

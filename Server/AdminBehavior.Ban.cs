@@ -62,13 +62,21 @@ namespace Carbonate.Server
             DateTime time;
             if (!TypeConvert.TryGetTime(arguments[1], out time))
             {
-                ServerMessage("server", user, $"Time format is invalid.");
+                ServerMessage(
+                    "server", 
+                    user, 
+                    langFile["command_invalidTimeFormat"]
+                );
                 return;
             }
             
             DateTime untilTime = DateTime.Now.AddTicks(time.Ticks);
 
             Users[arguments[0]].banTime = untilTime;
+            Info(
+                $"{backendUser.nickname}\\rr({backendUser.username}\\rr)" +
+                $" banned {target.nickname}\\rr({target.username}\\rr)."
+            );
             Broadcast(
                 "server", 
                 langFile["command_ban_broadcast"]
@@ -147,7 +155,10 @@ namespace Carbonate.Server
             }
 
             Users[arguments[0]].banTime = DateTime.MinValue;
-
+            Info(
+                $"{backendUser.nickname}\\rr({backendUser.username}\\rr)" +
+                $" unbanned {target.nickname}\\rr({target.username}\\rr)."
+            );
             Broadcast(
                 "server", 
                 langFile["command_unban_broadcast"]
