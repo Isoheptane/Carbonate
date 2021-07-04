@@ -11,8 +11,7 @@ namespace Carbonate.Standard
     {
         /*
         *   Packet data is stored in a JSON Object.
-        *   One packet has a 4 byte packet head that indicates
-        *   the length of the JSON data.
+        *   And the packet is ended with a '\0' character.
         */
         JsonObject packetData;
         /// <summary>
@@ -67,14 +66,12 @@ namespace Carbonate.Standard
         /// <returns>The data byte array</returns>
         public byte[] ToByteArray()
         {
-            string jsonString = packetData.ToString();
-            int packetLength = Encoding.UTF8.GetByteCount(jsonString);
-            byte[] byteArray = new byte[packetLength + 4];
-
-            Array.Copy(BitConverter.GetBytes(packetLength), 0, byteArray, 0, 4);
-            Array.Copy(Encoding.UTF8.GetBytes(jsonString), 0, byteArray, 4, packetLength);
-
-            return byteArray;
+            string json = packetData.ToString();
+            int length = Encoding.UTF8.GetByteCount(json);
+            byte[] array = new byte[length + 1];
+            Encoding.UTF8.GetBytes(json, 0, json.Length, array, 0);
+            array[length] = 0;
+            return array;
         }
 
         /// <summary>
@@ -103,10 +100,16 @@ namespace Carbonate.Standard
         /// <returns>Packet received</returns>
         public static Packet ReceivePacket(NetworkStream stream, byte[] buffer)
         {
-            stream.Read(buffer, 0, 4);
-            int length = BitConverter.ToInt32(buffer, 0);
-            stream.Read(buffer, 0, length);
-            return new Packet(Encoding.UTF8.GetString(buffer, 0, length));
+            int length = 0;
+            while (stream.DataAvailable)
+            {
+                byte currentByte = (byte)stream.ReadByte();
+                if (currentByte == 0)
+                    break;
+                buffer[length++] = currentByte;
+            }
+            string json = Encoding.UTF8.GetString(buffer, 0, length);
+            return new Packet(json);
         }
 
         /// <summary>
