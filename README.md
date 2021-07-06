@@ -3,7 +3,7 @@ A very simple real-time chatting protocol and its implement.
 
 ### Transmission ###
 
-​	All of the packets are actually a UTF-8 encoded JSON string with a 4-byte-long string length indicator at the beginning of the packet. JSON comments are not supported.
+​	All of the packets are actually a UTF-8 encoded JSON string with a ``'\0'`` indicator at the ending of the packet. JSON comments are not supported.
 
 ### Client Command-line Interface (ClientCLI) ###
 
