@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Collections.Generic;
 using System.Text;
 using JsonSharp;
@@ -97,9 +98,19 @@ namespace Carbonate.Standard
         /// </summary>
         /// <param name="client">Network stream</param>
         /// <param name="buffer">Indicated byte buffer</param>
+        /// <param name="timeout">Timeout as millisecond</param>
         /// <returns>Packet received</returns>
-        public static Packet ReceivePacket(NetworkStream stream, byte[] buffer)
+        public static Packet ReceivePacket(NetworkStream stream, byte[] buffer, int timeout = 5000)
         {
+            // If not available then wait for a packet.
+            DateTime start = DateTime.Now;
+            while (!stream.DataAvailable)
+            {
+                if (DateTime.Now > start.AddMilliseconds(timeout))
+                    throw new TimeoutException("Receive packet time out.");
+                Thread.Sleep(1);
+            }
+            // Read packet
             int length = 0;
             while (stream.DataAvailable)
             {

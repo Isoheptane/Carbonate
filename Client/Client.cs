@@ -96,11 +96,6 @@ namespace Carbonate.Client
             request["username"] = username;
             request["password"] = password;
             Send(request);
-            while (!DataAvailable)
-            {
-                Thread.Sleep(1);
-                continue;
-            }
             Packet response = Receive();
             string message = response["message"];
             if(response["accepted"] == true) 
@@ -137,11 +132,6 @@ namespace Carbonate.Client
             request["nickname"] = nickname;
             request["password"] = password;
             Send(request);
-            while (!DataAvailable)
-            {
-                Thread.Sleep(1);
-                continue;
-            }
             Packet response = Receive();
             string message = response["message"];
             if(response["accepted"] == true) 
@@ -173,12 +163,6 @@ namespace Carbonate.Client
             request["requestType"] = "ping";
             request["username"] = username;
             Packet.SendPacket(pingStream, request);
-            while (!pingStream.DataAvailable)
-            {
-                Thread.Sleep(1);
-                continue;
-            }
-            Packet response = Receive();
             Packet result = Packet.ReceivePacket(pingStream, pingBuffer);
             pingStream.Close();
             pingClient.Close();
